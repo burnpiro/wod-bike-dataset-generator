@@ -15,6 +15,8 @@ def extract_data(train_file_path, columns=COLUMNS):
     all_data = pd.read_csv(train_file_path, usecols=columns)
     all_data = all_data[all_data['rental_place'] != 'Poza stacją']
     all_data = all_data[all_data['return_place'] != 'Poza stacją']
+    all_data = all_data[all_data['rental_place'] != '.RELOKACYJNA']
+    all_data = all_data[all_data['return_place'] != '.RELOKACYJNA']
     all_data = all_data[all_data['return_place'] != all_data['rental_place']]
     stations = all_data['rental_place'].unique()
     all_data = all_data.dropna()
@@ -23,7 +25,7 @@ def extract_data(train_file_path, columns=COLUMNS):
         mapping_dict = {stations[i]: i for i in range(0, len(stations))}
         all_data[feature_name] = all_data[feature_name].map(mapping_dict)
 
-    return all_data
+    return all_data, mapping_dict
 
 #
 # data = extract_data('data/historia_przejazdow_2019-03.csv')
