@@ -9,23 +9,33 @@ COLUMNS = [
     'return_place'
 ]
 
+nodes_to_remove = [
+    '.GOTOWE DO REZERWACJI',
+    'Poza stacją',
+    '.RELOKACYJNA',
+    '.RELOKACYJNA A1-4',
+    '# Rowery skradzione Wrocław 2014',
+    '#Rowery zapasowe Warszawa'
+]
+
+
+def trim_and_remove_slash(s):
+    return s.strip().replace('/', '-').replace('"', '').replace(',', ' -')
+
 
 def extract_data(train_file_path, columns=COLUMNS):
     # Read csv file and return
     all_data = pd.read_csv(train_file_path, usecols=columns)
-    all_data = all_data[all_data['rental_place'] != 'Poza stacją']
-    all_data = all_data[all_data['return_place'] != 'Poza stacją']
-    all_data = all_data[all_data['rental_place'] != '.RELOKACYJNA']
-    all_data = all_data[all_data['return_place'] != '.RELOKACYJNA']
+    for place in nodes_to_remove:
+        all_data = all_data[all_data['rental_place'] != place]
+        all_data = all_data[all_data['return_place'] != place]
     all_data = all_data[all_data['return_place'] != all_data['rental_place']]
+    all_data['rental_place'] = all_data['rental_place'].apply(trim_and_remove_slash)
+    all_data['return_place'] = all_data['return_place'].apply(trim_and_remove_slash)
     stations = all_data['rental_place'].unique()
     all_data = all_data.dropna()
 
-    for feature_name in ['rental_place', 'return_place']:
-        mapping_dict = {stations[i]: i for i in range(0, len(stations))}
-        all_data[feature_name] = all_data[feature_name].map(mapping_dict)
-
-    return all_data, mapping_dict
+    return all_data, stations
 
 #
 # data = extract_data('data/historia_przejazdow_2019-03.csv')
