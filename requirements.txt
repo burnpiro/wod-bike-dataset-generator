@@ -1,3 +1,6 @@
 pandas>=1.0.1
 notebook>=6.0.3
 jupyter-core>=4.6.3
+request
+geopandas
+geopy
