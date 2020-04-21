@@ -10,6 +10,21 @@
 
 
 ### Animated network 2019
-[Full network animation](./assets/full_map.gif)
+![Full network animation](./assets/full_map.gif)
 ### Networks month/month 2019
 [Full networks](./assets/2019-full-images.zip)
+
+### Animated network 2019 (degree only)
+![Full network animation](./assets/degree_map.gif)
+
+### Degree distribution change
+![alt text](./assets/degree.gif)
+
+### Clustering Coefficent distribution change
+![alt text](./assets/cc.gif)
+
+### Closeness distribution change
+![alt text](./assets/closeness.gif)
+
+### Betweenness distribution change
+![alt text](./assets/betw.gif)
