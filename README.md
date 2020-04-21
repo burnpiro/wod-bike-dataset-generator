@@ -20,11 +20,11 @@
 ### Degree distribution change
 ![alt text](./assets/degree.gif)
 
-### Degree distribution change
+### Clustering Coefficent distribution change
 ![alt text](./assets/cc.gif)
 
-### Degree distribution change
+### Closeness distribution change
 ![alt text](./assets/closeness.gif)
 
-### Degree distribution change
+### Betweenness distribution change
 ![alt text](./assets/betw.gif)
