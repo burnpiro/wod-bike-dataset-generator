@@ -19,9 +19,12 @@ const useStyles = makeStyles((theme) => ({
   icon: {
     marginRight: theme.spacing(2),
   },
+  main: {
+    minHeight: 'calc(100vh - 200px)',
+  },
   footer: {
     backgroundColor: theme.palette.background.paper,
-    padding: theme.spacing(6),
+    padding: theme.spacing(2, 2),
   },
 }));
 
@@ -38,7 +41,7 @@ export default function Layout({children}) {
           </Typography>
         </Toolbar>
       </AppBar>
-      <main>
+      <main className={classes.main}>
         { children }
       </main>
       {/* Footer */}
