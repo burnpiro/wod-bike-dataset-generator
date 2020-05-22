@@ -46,16 +46,19 @@ const Network = () => {
         .then(stringData => {
           let lines = stringData.split("\n").map(line => line.split(','));
           let [ idx, ...data] = lines
-          setFetchedCSVdata(data.map(point => ({
+          setFetchedCSVdata([{
             type:'scattermapbox',
-            lat:[point[2]],
-            lon:[point[3]],
+            lat:data.map(point => point[2]),
+            lon:data.map(point => point[3]),
+            ids:data.map(point => point[0]),
             mode:'markers',
             marker: {
-              size:14
+              size:14,
+              color: 'blue'
             },
-            text:[point[1]]
-          })));
+            hoverinfo: 'text',
+            text:data.map(point => point[1])
+          }]);
         });
     }
   }, [])
