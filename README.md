@@ -28,3 +28,7 @@
 
 ### Betweenness distribution change
 ![alt text](./assets/betw.gif)
+
+### Generating files
+
+To generate edges weights and metrics for all nodes in each interval you have to run generate_groupby_intervals_datasets.py and then run generate_all_metrics.py. Generated files with weighted edges already are in groupedby_intervals directory. Files containing metrics for nodes (.*metrics.csv) and bikes usage (.*bikes_usage.csv) are in metrics directory.
