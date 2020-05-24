@@ -1,29 +1,25 @@
-import React, {useEffect, useState} from "react";
-import axios from 'axios'
+import React, { useEffect, useState } from "react";
+import CircularProgress from "@material-ui/core/CircularProgress";
 import Plot from "react-plotly.js";
+import useFetchNodes from "../../hooks/useFetchNodes";
+import useTimer from "../../hooks/useTimer";
+import { makeStyles } from "@material-ui/core/styles";
 
-import nodes from './nodes_locations.csv'
-
-const data = [
-  {
-    type: "scattermapbox",
-    marker: {
-      size: [20, 30, 15, 10],
-      color: [10, 20, 40, 50],
-      cmin: 0,
-      cmax: 50,
-      colorscale: "Greens",
-      colorbar: {
-        title: "Some rate",
-        ticksuffix: "%",
-        showticksuffix: "last",
-      },
-      line: {
-        color: "black",
-      },
-    },
+const useStyles = makeStyles((theme) => ({
+  overlay: {
+    position: "fixed",
+    top: 0,
+    left: 0,
+    width: "100vw",
+    height: "100vw",
+    paddingTop: "25%",
+    backgroundColor: "rgba(0,0,0,0.5)",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    color: "white",
   },
-];
+}));
 
 const layout = {
   dragmode: "zoom",
@@ -34,111 +30,121 @@ const layout = {
     zoom: 11,
   },
   autosize: true,
-  showlegend: false
+  showlegend: false,
+  updatemenus: [
+    {
+      buttons: [
+        {
+          method: "update",
+          args: [
+            'play',
+          ],
+          label: "Play",
+        },
+        {
+          method: "update",
+          args: [
+            'pause',
+          ],
+          label: "Pause",
+        },
+      ],
+      direction: "left",
+      pad: { r: 10, t: 10 },
+      showactive: true,
+      type: "buttons",
+      x: 0.0,
+      xanchor: "left",
+      y: 1.1,
+      yanchor: "top",
+    },
+  ],
+  sliders: [
+    {
+      pad: { t: 5, b: 10 },
+      x: 0.15,
+      y: 1.1,
+      len: 0.85,
+      currentvalue: {
+        visible: true,
+        xanchor: "right",
+        prefix: "Hour: ",
+        font: {
+          color: "#888",
+          size: 20,
+        },
+      },
+      active: 2,
+      steps: Array(1440 / 15)
+        .fill(0)
+        .map((val, id) => ({
+          label: `${Math.floor(id * 15/60)}:${id*15%60 === 0 ? '00' : id*15%60}`,
+          args: [id],
+          method: "update",
+        })),
+    },
+  ],
 };
 
 const Network = () => {
-  const [fileProgress, setFileProgess] = useState(1.0)
-  const [nodesData, setNodesData] = useState([]);
-  const [pathsData, setPathsData] = useState([]);
-  console.log(nodesData, pathsData)
+  const classes = useStyles();
+  const [frames, setFrames] = useState([]);
+  const [frameId, setFrameId] = useState(0);
+  const [{ nodes, paths }, isLoading, isError] = useFetchNodes();
+  const { time, start, pause, reset, isRunning } = useTimer({
+    endTime: 1440 / 15,
+    initialTime: frameId,
+  });
+  layout.sliders[0].active = time;
 
   useEffect(() => {
-    if (nodesData.length === 0) {
-      axios.request( {
-        method: "get",
-        url: "nodes_list.json",
-        onUploadProgress: (p) => {
-          console.log(p);
-          //this.setState({
-          //fileprogress: p.loaded / p.total
-          //})
-          setFileProgess(p.loaded / p.total)
-        }
-      }).then (response => {
-        const lat = response.data.map(row => row['lat']);
-        const lng = response.data.map(row => row['lng']);
-        const ids = response.data.map(row => row['id']);
-        const names = response.data.map(row => row['name']);
-        console.log('aaa')
-        setNodesData([{
-          type:'scattermapbox',
-          lat:lat,
-          lon:lng,
-          ids:ids,
-          mode:'markers',
-          marker: {
-            size:14,
-            color: 'blue'
-          },
-          hoverinfo: 'text',
-          text:names
-        }]);
-        setFileProgess(1.0)
-      })
-      axios.request( {
-        method: "get",
-        url: "paths_reduced-e12.json",
-        onUploadProgress: (p) => {
-          console.log(p);
-          //this.setState({
-          //fileprogress: p.loaded / p.total
-          //})
-        }
-      }).then (response => {
-        console.log(response)
-        //this.setState({
-        //fileprogress: 1.0,
-        //})
-        console.log(response.data[13])
-
-        const paths = response.data.map(row => ({
-          type:'scattermapbox',
-            lat:row.lng,
-            lon:row.lat,
-            ids:row.id,
-            mode:'lines',
-            marker: {
-            size:14,
-              color: 'red'
-          },
-          id:row.id,
-          text: `Connection between${row.id}`,
-        }));
-        // const lng = response.data.slice(0,30).map(row => row['lat']);
-        // const ids = response.data.slice(0,30).map(row => row['id']);
-        // const names = response.data.slice(0,30).map(row => `Connection between${row['id']}`);
-        setPathsData(paths);
-      })
-      // fetch(nodes)
-      //   .then(res => res.text())
-      //   .then(stringData => {
-      //     let lines = stringData.split("\n").map(line => line.split(','));
-      //     let [ idx, ...data] = lines
-      //     setFetchedCSVdata([{
-      //       type:'scattermapbox',
-      //       lat:data.map(point => point[2]),
-      //       lon:data.map(point => point[3]),
-      //       ids:data.map(point => point[0]),
-      //       mode:'markers',
-      //       marker: {
-      //         size:14,
-      //         color: 'blue'
-      //       },
-      //       hoverinfo: 'text',
-      //       text:data.map(point => point[1])
-      //     }]);
-      //   });
+    setFrames(
+      Array(1440 / 15)
+        .fill(0)
+        .map((val, id) => [...nodes, ...paths.slice(id * 10, (id + 1) * 10)])
+    );
+  }, [isLoading]);
+  const data = frames[time] || [];
+  const buttonClick = ({button}) => {
+    switch(button.args[0]) {
+      case 'play':
+        start()
+        break;
+      case 'pause':
+        pause()
+        break;
+      default:
+        console.log(button.args[0])
+        break;
     }
-  }, [])
+  };
+  const sliderChange = ({ step }) => {
+    setFrameId(step.args[0]);
+    reset(step.args[0])
+  };
   return (
-    <Plot
-      data={nodesData === [] ? data : [...nodesData, ...pathsData.slice(0,400)]}
-      layout={layout}
-      useResizeHandler={true}
-      style={{ width: "100%", minHeight: "calc(100vh - 70px)" }}
-    />
+    <React.Fragment>
+      <Plot
+        data={data.length === 0 ? nodes : data}
+        layout={layout}
+        frames={Array(frames.length)
+          .fill(0)
+          .map((i, id) => ({
+            name: id,
+          }))}
+        onButtonClicked={buttonClick}
+        onSliderChange={sliderChange}
+        useResizeHandler={true}
+        style={{ width: "100%", minHeight: "calc(100vh - 70px)" }}
+      />
+      {isLoading && (
+        <div className={classes.overlay}>
+          <CircularProgress color="secondary" size={80} thickness={4} />
+          <h1>Network data is loading... Please wait :)</h1>
+        </div>
+      )}
+    </React.Fragment>
   );
-}
+};
 
 export default Network;
