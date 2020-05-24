@@ -1,10 +1,10 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "b8d44681e2a3c8b6e0f40bf8c5a1aaca",
+    "revision": "d1a3d518e21dfcfb56b37d28aebaeb12",
     "url": "/wod-bike-dataset-generator/index.html"
   },
   {
-    "revision": "495ba40b124b5d25bfd5",
+    "revision": "70aa882ba514e943be20",
     "url": "/wod-bike-dataset-generator/static/css/main.5f361e03.chunk.css"
   },
   {
@@ -16,8 +16,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/wod-bike-dataset-generator/static/js/2.37b065ca.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "495ba40b124b5d25bfd5",
-    "url": "/wod-bike-dataset-generator/static/js/main.87a2b33f.chunk.js"
+    "revision": "70aa882ba514e943be20",
+    "url": "/wod-bike-dataset-generator/static/js/main.2ec5835d.chunk.js"
   },
   {
     "revision": "c3ac19e07d3aeda0f948",
