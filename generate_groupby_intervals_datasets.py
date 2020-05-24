@@ -45,8 +45,6 @@ def generate_intervals_from_a_single_csv(input_path, output_path):
     for i in range(len(ranges) - 1):
         interval_start, interval_end = ranges[i], ranges[i + 1]
 
-
-    
         interval_group_df = (
         all_trips_in_all_intervals_df[all_trips_in_all_intervals_df["interval_start"] == interval_start]).groupby(
             ['rental_place', 'return_place'], as_index=False).count()
@@ -67,6 +65,8 @@ if __name__ == '__main__':
     OUTPUT_FILES_DIR = join(os.path.dirname(os.path.realpath(__file__)), "groupedby_intervals")
 
     csv_files = [f for f in listdir(INPUT_FILES_DIR) if isfile(join(INPUT_FILES_DIR, f))]
+    csv_files.remove("nodes.csv")
+
 
     if not os.path.exists(OUTPUT_FILES_DIR):
         os.makedirs(OUTPUT_FILES_DIR)
