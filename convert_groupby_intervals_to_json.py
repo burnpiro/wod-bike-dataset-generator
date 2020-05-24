@@ -23,7 +23,6 @@ if __name__ == '__main__':
 
     csv_files = [f for f in listdir(INPUT_FILES_DIR) if isfile(join(INPUT_FILES_DIR, f))]
 
-
     if not os.path.exists(OUTPUT_FILES_DIR):
         os.makedirs(OUTPUT_FILES_DIR)
 
