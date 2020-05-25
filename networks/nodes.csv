@@ -20,8 +20,8 @@ value,name
 18,Dworzec Główny
 19,Dworzec Główny - południe
 20,Dyrekcyjna - Borowska (Wroclavia)
-21,Fabryczna - Wagonowa
-22,Fabryczna (WSB)
+21,Fabryczna (WSB)
+22,Fabryczna - Wagonowa
 23,Fosa Miejska
 24,Gliniana - Gajowa
 25,Gorlicka - Litewska
@@ -83,124 +83,123 @@ value,name
 81,Mościckiego - Chińska
 82,Mrągowska - Rolna
 83,Młodych Techników
-84,Młynarska-Wąska
-85,Na Grobli (PWr - Geocentrum)
-86,Na Ostatnim Groszu
-87,Norwida - Wyspiańskiego (PWr)
-88,Nowowiejska - Górnickiego
-89,Nowowiejska - Jedności Narodowej
-90,Nowowiejska - Wyszyńskiego
-91,Nyska - Jesionowa
-92,Nyska - Piękna
-93,Obornicka - Bałtycka
-94,Okulickiego
-95,Olszewskiego - Spółdzielcza
-96,Olszewskiego - pętla tramwajowa
-97,Opolska - Siemianowicka
-98,Opolska - pętla tramwajowa
-99,Oporów (pętla tramwajowa)
-100,Osobowicka - Ostrowska
-101,Osobowicka - pętla tramwajowa
-102,Paprotna - Obornicka - zajezdnia MPK
-103,Partyzantów - Okrzei
-104,Pereca - Grabiszyńska
-105,Piaskowa - św. Ducha
-106,Pilczycka (Stadion Miejski)
-107,Pilczycka - Koszykarska
-108,Pilczycka - Kozanowska
-109,Plac Dominikański (Galeria Dominikańska)
-110,Plac Grunwaldzki (DS Ołówek)
-111,Plac Grunwaldzki - Polaka
-112,Plac Jana Pawła II (Akademia Muzyczna)
-113,Plac Kościuszki (Renoma)
-114,Plac Legionów
-115,Plac Powstańców Warszawy (Muzeum Narodowe)
-116,Plac Powstańców Śląskich
-117,Plac Staszica
-118,Plac Strzegomski - Poznańska
-119,Plac Uniwersytecki (UWr)
-120,Plac Świętego Macieja - Trzebnicka
-121,Poleska - Litewska
-122,Poniatowskiego - Oleśnicka
-123,Popowice
-124,Popowicka
-125,Popowicka - Niedźwiedzia
-126,Powstańcow Śląskich - Aleja Hallera
-127,Powstańców Śląskich (Arkady Wrocławskie)
-128,Prochowicka - Dolnobrzeska
-129,Promenady Wrocławskie
-130,Przyjaźni
-131,Przyjaźni - Karkonoska
-132,Racławicka - Rymarska
-133,Radeckiego - Marcinkowskiego (Uniw. Medyczny - CNIM)
-134,Reymonta - Kleczkowska
-135,Robotnicza - Fabryczna
-136,Rogowska - Zemska
-137,Rondo Reagana
-138,Rynek
-139,Semaforowa
-140,Sienkiewicza - Piastowska
-141,Sienkiewicza - Wyszyńskiego
-142,Skarbowców - Wietrzna
-143,Solskiego - al. Piastów
-144,Sołtysowicka - Redycka
-145,Stabłowicka
-146,Stabłowicka - Główna
-147,Stacyjna (Dworzec Mikołajów)
-148,Stadion Olimpijski
-149,Strachocińska - Wieśniacza
-150,Strachowskiego - Parafialna
-151,Strzegomska - Estońska
-152,Strzegomska - Rogowska
-153,Szczęśliwa (Sky Tower)
-154,Szewska - Kazimierza Wielkiego
-155,Tarnogajska - Klimasa
-156,Traktatowa (przystanek kolejowy)
-157,Traugutta - Kościuszki
-158,Traugutta - Pułaskiego
-159,Trymanda - Mińska
-160,Tyrmanda - Trawowa
-161,Waniliowa - Cynamonowa
-162,Wałbrzyska - pętla tramwajowa
-163,Wilanowska
-164,Wita Stwosza - Szewska
-165,Wojanowska - Arbuzowa
-166,Wrocław Leśnica - stacja kolejowa
-167,Wrocław Stadion - stacja kolejowa
-168,Wróblewskiego (Teki)
-169,Wróblewskiego (ZOO)
-170,Wyszyńskiego - Szczytnicka
-171,Zachodnia - Poznańska
-172,Zaporoska - Gajowicka
-173,Zaporoska - Grabiszyńska
-174,Zaporoska - Wielka - Krucza
-175,Zatorska - Królewska - pętla MPK
-176,Zwycięska - Agrestowa
-177,Zwycięska - Ołtaszyńska
-178,al. Armii Krajowej - Bardzka
-179,al. Armii Krajowej - Borowska
-180,al. Armii Krajowej - Tarnogajska
-181,al. Brücknera - Kwidzyńska
-182,al. Jana III Sobieskiego - stacja kolejowa
-183,al. Karkonoska - Jeździecka
-184,al. Kochanowskiego - Kopernika
-185,al. Kochanowskiego - Śniadeckich
-186,al. Poprzeczna - stacja kolejowa
-187,pl. Orląt Lwowskich
-188,pl. Powstańców Wielkopolskich
-189,Łukasiewicza - Smoluchowskiego (PWr)
-190,Ślężna - Aleja Wiśniowa
-191,Ślężna - Kamienna (Uniw. Ekonomiczny)
-192,Ślężna - Skierniewicka
-193,Ślężna - pętla tramwajowa
-194,Średzka - Dolnobrzeska
-195,Śrubowa - Strzegomska
-196,Świdnicka - Piłsudskiego (Hotel Scandic)
-197,Świeradowska (Ferio Gaj)
-198,Świeradowska - Krynicka
-199,Żelazna - Pereca
-200,Żernicka
-201,Żeromskiego - Daszyńskiego
-202,Żeromskiego - Kluczborska
-203,Żmigrodzka - Broniewskiego
-204,Żmigrodzka - Marino
+84,Na Grobli (PWr - Geocentrum)
+85,Na Ostatnim Groszu
+86,Norwida - Wyspiańskiego (PWr)
+87,Nowowiejska - Górnickiego
+88,Nowowiejska - Jedności Narodowej
+89,Nowowiejska - Wyszyńskiego
+90,Nyska - Jesionowa
+91,Nyska - Piękna
+92,Obornicka - Bałtycka
+93,Okulickiego
+94,Olszewskiego - Spółdzielcza
+95,Olszewskiego - pętla tramwajowa
+96,Opolska - Siemianowicka
+97,Opolska - pętla tramwajowa
+98,Oporów (pętla tramwajowa)
+99,Osobowicka - Ostrowska
+100,Osobowicka - pętla tramwajowa
+101,Paprotna - Obornicka - zajezdnia MPK
+102,Partyzantów - Okrzei
+103,Pereca - Grabiszyńska
+104,Piaskowa - św. Ducha
+105,Pilczycka (Stadion Miejski)
+106,Pilczycka - Koszykarska
+107,Pilczycka - Kozanowska
+108,Plac Dominikański (Galeria Dominikańska)
+109,Plac Grunwaldzki (DS Ołówek)
+110,Plac Grunwaldzki - Polaka
+111,Plac Jana Pawła II (Akademia Muzyczna)
+112,Plac Kościuszki (Renoma)
+113,Plac Legionów
+114,Plac Powstańców Warszawy (Muzeum Narodowe)
+115,Plac Powstańców Śląskich
+116,Plac Staszica
+117,Plac Strzegomski - Poznańska
+118,Plac Uniwersytecki (UWr)
+119,Plac Świętego Macieja - Trzebnicka
+120,Poleska - Litewska
+121,Poniatowskiego - Oleśnicka
+122,Popowice
+123,Popowicka
+124,Popowicka - Niedźwiedzia
+125,Powstańcow Śląskich - Aleja Hallera
+126,Powstańców Śląskich (Arkady Wrocławskie)
+127,Prochowicka - Dolnobrzeska
+128,Promenady Wrocławskie
+129,Przyjaźni
+130,Przyjaźni - Karkonoska
+131,Racławicka - Rymarska
+132,Radeckiego - Marcinkowskiego (Uniw. Medyczny - CNIM)
+133,Reymonta - Kleczkowska
+134,Robotnicza - Fabryczna
+135,Rogowska - Zemska
+136,Rondo Reagana
+137,Rynek
+138,Semaforowa
+139,Sienkiewicza - Piastowska
+140,Sienkiewicza - Wyszyńskiego
+141,Skarbowców - Wietrzna
+142,Solskiego - al. Piastów
+143,Sołtysowicka - Redycka
+144,Stabłowicka
+145,Stabłowicka - Główna
+146,Stacyjna (Dworzec Mikołajów)
+147,Stadion Olimpijski
+148,Strachocińska - Wieśniacza
+149,Strachowskiego - Parafialna
+150,Strzegomska - Estońska
+151,Strzegomska - Rogowska
+152,Szczęśliwa (Sky Tower)
+153,Szewska - Kazimierza Wielkiego
+154,Tarnogajska - Klimasa
+155,Traktatowa (przystanek kolejowy)
+156,Traugutta - Kościuszki
+157,Traugutta - Pułaskiego
+158,Trymanda - Mińska
+159,Tyrmanda - Trawowa
+160,Waniliowa - Cynamonowa
+161,Wałbrzyska - pętla tramwajowa
+162,Wilanowska
+163,Wita Stwosza - Szewska
+164,Wojanowska - Arbuzowa
+165,Wrocław Leśnica - stacja kolejowa
+166,Wrocław Stadion - stacja kolejowa
+167,Wróblewskiego (Teki)
+168,Wróblewskiego (ZOO)
+169,Wyszyńskiego - Szczytnicka
+170,Zachodnia - Poznańska
+171,Zaporoska - Gajowicka
+172,Zaporoska - Grabiszyńska
+173,Zaporoska - Wielka - Krucza
+174,Zatorska - Królewska - pętla MPK
+175,Zwycięska - Agrestowa
+176,Zwycięska - Ołtaszyńska
+177,al. Armii Krajowej - Bardzka
+178,al. Armii Krajowej - Borowska
+179,al. Armii Krajowej - Tarnogajska
+180,al. Brücknera - Kwidzyńska
+181,al. Jana III Sobieskiego - stacja kolejowa
+182,al. Karkonoska - Jeździecka
+183,al. Kochanowskiego - Kopernika
+184,al. Kochanowskiego - Śniadeckich
+185,al. Poprzeczna - stacja kolejowa
+186,pl. Orląt Lwowskich
+187,pl. Powstańców Wielkopolskich
+188,Łukasiewicza - Smoluchowskiego (PWr)
+189,Ślężna - Aleja Wiśniowa
+190,Ślężna - Kamienna (Uniw. Ekonomiczny)
+191,Ślężna - Skierniewicka
+192,Ślężna - pętla tramwajowa
+193,Średzka - Dolnobrzeska
+194,Śrubowa - Strzegomska
+195,Świdnicka - Piłsudskiego (Hotel Scandic)
+196,Świeradowska (Ferio Gaj)
+197,Świeradowska - Krynicka
+198,Żelazna - Pereca
+199,Żernicka
+200,Żeromskiego - Daszyńskiego
+201,Żeromskiego - Kluczborska
+202,Żmigrodzka - Broniewskiego
+203,Żmigrodzka - Marino
