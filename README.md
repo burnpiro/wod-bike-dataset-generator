@@ -46,5 +46,35 @@ npm run deploy
 
 ### Json coding
 ```
-{"interval_start":"s","rental_place":"o","return_place":"d","number_of_trips":"c"}
+{"rental_place":"o","return_place":"d","number_of_trips":"c"}
+```
+
+```
+{
+    <day>: {
+           <start_minute>: [
+                    {
+                            "o": 1,
+                            "d": 2,
+                            "c": 15,
+                    }
+             ]
+     }
+}
+```
+
+Example:
+
+```
+{
+   1: {
+           375: [
+                    {
+                            "o": 1,
+                            "d": 2,
+                            "c": 15,
+                    }
+             ]
+     }
+}
 ```
