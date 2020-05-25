@@ -5,4 +5,3 @@ request
 geopandas
 geopy
 scikit-learn==0.23.1
-osmnx==0.12.1
