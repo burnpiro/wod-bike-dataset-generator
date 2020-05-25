@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 
 const useTimer = ({
   initialTime = 0,
-  interval = 1000,
+  interval = 2000,
   step = 1,
   timerType = "INCREMENTAL",
   endTime,
