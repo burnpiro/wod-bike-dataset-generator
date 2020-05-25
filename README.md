@@ -43,4 +43,38 @@ npm run deploy
 ## Mapped network nodes on Wroclaw map
 ![alt text](./assets/2019-03-with-degrees.png)
 
-more visualizations in `./assets/`
+
+### Json coding
+```
+{"rental_place":"o","return_place":"d","number_of_trips":"c"}
+```
+
+```
+{
+    <day>: {
+           <start_minute>: [
+                    {
+                            "o": 1,
+                            "d": 2,
+                            "c": 15,
+                    }
+             ]
+     }
+}
+```
+
+Example:
+
+```
+{
+   1: {
+           375: [
+                    {
+                            "o": 1,
+                            "d": 2,
+                            "c": 15,
+                    }
+             ]
+     }
+}
+```
