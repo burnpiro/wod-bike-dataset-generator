@@ -164,7 +164,7 @@ const Network = () => {
   const [
     { data: monthData, isLoading: isMonthLoading },
     doFetchMonth,
-  ] = useFetchData("07.json", []);
+  ] = useFetchData("07.json", {});
   const randomFile = generateRandomFile();
   const { time, start, pause, reset, isRunning } = useTimer({
     endTime: 1440 / 15,
@@ -197,11 +197,11 @@ const Network = () => {
   };
 
   useEffect(() => {
-    if(monthData.length !== 0) {
+    if(monthData != null && monthData['1'] != null) {
       setFrames(
         Array(1440 / 15)
           .fill(0)
-          .map((val, id) => [...nodes.list, ...randomFile[day][id*15].map(fillPathsWithData(paths.obj))])
+          .map((val, id) => [...nodes.list, ...monthData[day][id*15].map(fillPathsWithData(paths.obj, nodes.obj)).slice(0,50)])
       );
 
     } else {
