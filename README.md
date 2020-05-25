@@ -1,40 +1,155 @@
 # wod-bike-dataset-generator
 
+## Github Large File Storage
+
+For large file storeage we need to use [Github LFS](https://git-lfs.github.com/). Please follow the instruction and install it on your machine.
+
+## Path generation
+To generate csv file with paths you need to have `./network/nodes_locations.csv` file already available.
+
+Execute notebook (watch out, it's memory consuming, and takes ages ~7h):
+```
+OSMNX - path generation.ipynb
+```
+
+File with paths should be separate files depends on accuracy:
+ ```markdown
+./application/app_data/paths_reduced-e7.json
+./application/app_data/paths_reduced-e8.json
+./application/app_data/paths_reduced-e9.json
+./application/app_data/paths_reduced-e10.json
+./application/app_data/paths_reduced-e11.json
+./application/app_data/paths_reduced-e12.json
+```
+
+Additionally, it will create file with nodes:
+```markdown
+./application/public/nodes_list.json
+```
+
+## WebApp installation
+
+```bash
+cd application
+npm install
+npm run start
+```
+
+### Deployment
+```bash
+npm run deploy
+```
+
 ## Mapped network nodes on Wroclaw map
-![alt text](./assets/wrm_map.png)
-
-## Map for 03 2019, scaled base on edge weight and node degree
 ![alt text](./assets/2019-03-with-degrees.png)
-### only display edges with weight > 20
-![alt text](./assets/2019-03-filtered.png)
 
 
-### Animated network 2019
-![Full network animation](./assets/full_map.gif)
-### Networks month/month 2019
-[Full networks](./assets/2019-full-images.zip)
-
-### Animated network 2019 (degree only)
-![Full network animation](./assets/degree_map.gif)
-
-### Degree distribution change
-![alt text](./assets/degree.gif)
-
-### Clustering Coefficent distribution change
-![alt text](./assets/cc.gif)
-
-### Closeness distribution change
-![alt text](./assets/closeness.gif)
-
-### Betweenness distribution change
-![alt text](./assets/betw.gif)
-
-### Generating files
-
-To generate edges weights and metrics for all nodes in each interval you have to run generate_groupby_intervals_datasets.py and then run generate_all_metrics.py. Generated files with weighted edges already are in groupedby_intervals directory. Files containing metrics for nodes (.*metrics.csv) and bikes usage (.*bikes_usage.csv) are in metrics directory.
-
-
-### Json coding
+### Json coding - edges
 ```
-{"interval_start":"s","rental_place":"o","return_place":"d","number_of_trips":"c"}
+{"rental_place":"o","return_place":"d","number_of_trips":"c"}
 ```
+
+```
+{
+    <day>: {
+           <start_minute>: [
+                    {
+                            "o": 1,
+                            "d": 2,
+                            "c": 15,
+                    }
+             ]
+     }
+}
+```
+
+Example:
+
+```
+{
+   1: {
+           375: [
+                    {
+                            "o": 1,
+                            "d": 2,
+                            "c": 15,
+                    }
+             ]
+     }
+}
+```
+
+### Json coding - nodes metrics
+```
+{"node": "o", "degree": "k", "in_degree": "ik", "out_degree": "ok", "pagerank": "p"}
+```
+
+```
+{
+    <day>: {
+           <start_minute>: [
+                    {
+                            "o": 1,
+                            "k": 2,
+                            "ik": 1,
+                            "ok": 1,
+                            "p": 0.03103880199262298,
+                    }
+             ]
+     }
+}
+```
+
+Example:
+
+```
+{
+   "1": {
+           "375": [
+                    {
+                            "o": 1,
+                            "k": 2,
+                            "ik": 1,
+                            "ok": 1,
+                            "p": 0.03103880199262298,
+                    }
+             ]
+     }
+}
+```
+
+### Json coding - bikes usage
+```
+{"bikes_in_use": "bu", "bikes_total": "bt", "bikes_percentage": "bp"}
+```
+
+```
+{
+    <day>: {
+           <start_minute>: [
+                    {
+                           "bu": 366,
+                           "bt": 1027,
+                           "bp": 0.3563777994157741,
+                    }
+             ]
+     }
+}
+```
+
+Example:
+
+```
+{
+   "1": {
+           "375": [
+                    {
+                           "bu": 366,
+                           "bt": 1027,
+                           "bp": 0.3563777994157741,
+                    }
+             ]
+     }
+}
+```
+
