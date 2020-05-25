@@ -28,3 +28,8 @@
 
 ### Betweenness distribution change
 ![alt text](./assets/betw.gif)
+
+### Json coding
+```
+{"interval_start":"s","rental_place":"o","return_place":"d","number_of_trips":"c"}
+```
