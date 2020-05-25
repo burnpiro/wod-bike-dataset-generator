@@ -50,26 +50,24 @@ export const generateRandomFile = () => {
                 c: Math.floor(Math.random() * 30) + 1,
               }
             });
+          dayAcc[dayId * 15].sort((a, b) => b.c - a.c)
           return dayAcc;
         }, {});
       return acc;
     }, {});
 };
 
-export const fillPathsWithData = (paths = {}) => {
+export const fillPathsWithData = (paths = {}, nodes = {}) => {
   return (pathData = {}) => {
     const path = paths[`${pathData["o"]}-${pathData["d"]}`];
-    if(path == null) {
-      console.log(`${pathData["o"]}-${pathData["d"]}`)
-    }
     return {
       type: "scattermapbox",
       lat: path == null ? [] : path.lng,
       lon: path == null ? [] : path.lat,
       mode: "lines",
-      line: { width: Math.ceil(pathData["c"]/10), color: "red" },
+      line: { width: pathData["c"]*2, color: "red" },
       id: path == null ? [] : path.id,
-      text: `Connection between ${path == null ? 'unknown' : path.id}`,
+      text: path == null ? 'unknown' : `"${nodes[pathData["o"]].name}" do "${nodes[pathData["d"]].name}" rowery: ${pathData["c"]}`,
     };
   };
 };

@@ -11,7 +11,7 @@ const useFetchNodes = () => {
   const [
     { data: pathsData, isLoading: isPathsLoading, isError: isPathsError },
     doFetchPaths,
-  ] = useFetchData("paths_reduced-e7.json", {});
+  ] = useFetchData("paths_reduced-e10.json", {});
 
   return [
     {
