@@ -3,17 +3,35 @@ from os import listdir
 from os.path import join, isfile
 from tqdm import tqdm
 import pandas as pd
+import json
 
 COLUMNS_RENAME_DICT = {"interval_start": "s", "rental_place": "o", "return_place": "d", "number_of_trips": "c"}
 
 
 def convert_csv_to_json(input_path, output_path):
     df = pd.read_csv(input_path, parse_dates=True)
-
     df = df[["interval_start", "rental_place", "return_place", "number_of_trips"]]
-    df = df.rename(columns=COLUMNS_RENAME_DICT)
+    df['interval_start'] = pd.to_datetime(df['interval_start'])
+    df["day"] = df["interval_start"].dt.day
+    df["minute_in_day"] = df["interval_start"].dt.hour * 60 + df["interval_start"].dt.minute
+    days_in_month = df["interval_start"].dt.daysinmonth.max()
+    df = df[["day", "minute_in_day", "rental_place", "return_place", "number_of_trips"]]
+    df = df.rename(columns={"rental_place": "o", "return_place": "d", "number_of_trips": "c"})
 
-    df.to_json(output_path, orient="records")
+    month_dict = {}
+
+    for day in range(1, days_in_month + 1):
+        dict_for_current_day = (df[df.day == day])[["minute_in_day", "o", "d", "c"]].groupby('minute_in_day').apply(
+            lambda g: g[["o", "d", "c"]].sort_values(by=['c'], ascending=False).to_dict(orient='records')).to_dict()
+
+        month_dict[day] = dict_for_current_day
+
+
+    with open(output_path, 'w') as fp:
+        json.dump(month_dict, fp)
+
+
+
 
 
 if __name__ == '__main__':
