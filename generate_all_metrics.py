@@ -10,7 +10,7 @@ import glob
 import datetime
 import networkx as nx
 
-def generate_metrics_from_a_single_csv(input_path, output_path, bikes_per_month):
+def generate_metrics_from_a_single_csv(input_path, output_path, output_path_bikes_usage, bikes_per_month):
     df_names = pd.read_csv('./networks/nodes.csv', usecols=['value', 'name'])
     df = pd.read_csv('./networks/nodes_locations.csv', usecols=['name', 'lng', 'lat'])
     df_edges = pd.read_csv(input_path, usecols=['interval_start', 'interval_end', 'number_of_trips', 'rental_place',
@@ -18,10 +18,10 @@ def generate_metrics_from_a_single_csv(input_path, output_path, bikes_per_month)
     dict_names_temp = df_names['name'].to_dict()
     dict_names = {}
 
-    for value, name in dict_names_temp.items():
-        dict_names[name] = value
-    df_edges["rental_place"].replace(dict_names, inplace=True)
-    df_edges["return_place"].replace(dict_names, inplace=True)
+#    for value, name in dict_names_temp.items():
+#       dict_names[name] = value
+#    df_edges["rental_place"].replace(dict_names, inplace=True)
+#    df_edges["return_place"].replace(dict_names, inplace=True)
 
     df_edges['interval_start'] = pd.to_datetime(df_edges['interval_start'])
     df_edges['interval_end'] = pd.to_datetime(df_edges['interval_end'])
@@ -38,8 +38,9 @@ def generate_metrics_from_a_single_csv(input_path, output_path, bikes_per_month)
 
     print("First transform conducted")
 
-    metrics.to_csv(join(output_path), index=False)
-    bikes_usage.to_csv(join(output_path.replace("_metrics", "_bikes_usage")), index=False)
+    metrics.to_csv(output_path, index=False)
+
+    bikes_usage.to_csv(output_path_bikes_usage, index=False)
 
 
 def count_metrics(df, df_edges, ranges, end, bikes_per_month):
@@ -98,13 +99,15 @@ def count_metrics(df, df_edges, ranges, end, bikes_per_month):
 if __name__ == '__main__':
     INPUT_FILES_DIR = join(os.path.dirname(os.path.realpath(__file__)), "groupedby_intervals")
 
-    OUTPUT_FILES_DIR = join(os.path.dirname(os.path.realpath(__file__)), "metrics")
+    OUTPUT_FILES_DIR_METRICS = join(os.path.dirname(os.path.realpath(__file__)), "metrics")
+    OUTPUT_FILES_DIR_BIKES_USAGE = join(os.path.dirname(os.path.realpath(__file__)), "bikes_usage")
 
     csv_files = [f for f in listdir(INPUT_FILES_DIR) if isfile(join(INPUT_FILES_DIR, f))]
 
-    if not os.path.exists(OUTPUT_FILES_DIR):
-        os.makedirs(OUTPUT_FILES_DIR)
-
+    if not os.path.exists(OUTPUT_FILES_DIR_METRICS):
+        os.makedirs(OUTPUT_FILES_DIR_METRICS)
+    if not os.path.exists(OUTPUT_FILES_DIR_BIKES_USAGE):
+        os.makedirs(OUTPUT_FILES_DIR_BIKES_USAGE)
     paths = [
         r'./data',
     ]
@@ -122,6 +125,7 @@ if __name__ == '__main__':
 
     for f in tqdm(csv_files):
         input_path = join(INPUT_FILES_DIR, f)
-        output_path = join(OUTPUT_FILES_DIR, f.replace("groupedby_interval", "metrics"))
+        output_path_metrics = join(OUTPUT_FILES_DIR_METRICS, f.replace("groupedby_interval", "metrics"))
+        output_path_bikes_usage = join(OUTPUT_FILES_DIR_BIKES_USAGE, f.replace("groupedby_interval", "bieks_usage"))
 
-        generate_metrics_from_a_single_csv(input_path, output_path, bikes_per_month)
+        generate_metrics_from_a_single_csv(input_path, output_path_metrics, output_path_bikes_usage, bikes_per_month)
