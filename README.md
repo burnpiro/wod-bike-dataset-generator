@@ -153,3 +153,26 @@ Example:
 }
 ```
 
+## Preprocessing
+1. To preprocess the dataset, you need to execute the following notebook
+preprocessing/preprocessing.ipynb
+
+2. To execute the notebook, you need:
+    -  dataset (directory *data* with monthly rentals)
+    -  pickle with Wroclaw stations (*preprocessing/stations.pkl*)
+
+3.  Preprocessed data with csv extension will be saved in data_preprocessed directory.
+    - File with map from id to station name will be saved in *data_preprocessed/nodes.csv* file.
+
+4. Output sample:
+
+bike_number, start_time, end_time, rental_place, return_place<br />
+57114, 2019-03-15 10:21:55, 2019-03-15 10:28:18, 195, 195 
+
+where rental_place and return_place are id from map from file *data_preprocessed/nodes.csv*
+
+Example *nodes.csv*:
+
+value, name<br />
+0, Aleja Bielany
+
