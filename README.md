@@ -44,7 +44,7 @@ npm run deploy
 ![alt text](./assets/2019-03-with-degrees.png)
 
 
-### Json coding
+### Json coding - edges
 ```
 {"rental_place":"o","return_place":"d","number_of_trips":"c"}
 ```
@@ -78,3 +78,78 @@ Example:
      }
 }
 ```
+
+### Json coding - nodes metrics
+```
+{"node": "o", "degree": "k", "in_degree": "ik", "out_degree": "ok", "pagerank": "p"}
+```
+
+```
+{
+    <day>: {
+           <start_minute>: [
+                    {
+                            "o": 1,
+                            "k": 2,
+                            "ik": 1,
+                            "ok": 1,
+                            "p": 0.03103880199262298,
+                    }
+             ]
+     }
+}
+```
+
+Example:
+
+```
+{
+   "1": {
+           "375": [
+                    {
+                            "o": 1,
+                            "k": 2,
+                            "ik": 1,
+                            "ok": 1,
+                            "p": 0.03103880199262298,
+                    }
+             ]
+     }
+}
+```
+
+### Json coding - bikes usage
+```
+{"bikes_in_use": "bu", "bikes_total": "bt", "bikes_percentage": "bp"}
+```
+
+```
+{
+    <day>: {
+           <start_minute>: [
+                    {
+                           "bu": 366,
+                           "bt": 1027,
+                           "bp": 0.3563777994157741,
+                    }
+             ]
+     }
+}
+```
+
+Example:
+
+```
+{
+   "1": {
+           "375": [
+                    {
+                           "bu": 366,
+                           "bt": 1027,
+                           "bp": 0.3563777994157741,
+                    }
+             ]
+     }
+}
+```
+
