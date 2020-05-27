@@ -1,3 +1,4 @@
+import datetime
 import os
 import pandas as pd
 from os.path import isfile, join
@@ -15,7 +16,7 @@ def generate_intervals_from_a_single_csv(input_path, output_path):
     start = start.replace(hour=0, minute=0, second=0)
 
     end = df.end_time.max()
-    end = end.replace(hour=0, minute=0, second=0)
+    end = end.replace(hour=0, minute=0, second=0) + datetime.timedelta(days=1)
 
     ranges = pd.date_range(start, end, freq='15T')
 
