@@ -74,7 +74,7 @@ export const fillPathsWithData = (paths = {}, nodes = {}) => {
 
 const scl = [[0, 'rgb(0, 0, 200)'],[0.25,'rgb(0, 25, 255)'],[0.375,'rgb(0, 152, 255)'],[0.5,'rgb(44, 255, 150)'],[0.625,'rgb(151, 255, 0)'],[0.75,'rgb(255, 234, 0)'],[0.875,'rgb(255, 111, 0)'],[1,'rgb(255, 0, 0)']];
 
-export const fillNodesMetricData = (metrics = {}, time, day) => {
+export const fillNodesMetricData = (metrics = {}, nodeMetric = 'k') => {
   return (node = {}) => {
     return {
       type: "scattermapbox",
@@ -88,14 +88,16 @@ export const fillNodesMetricData = (metrics = {}, time, day) => {
           if(currMetric == null) {
             return 4;
           }
-          return Math.ceil(Math.log2(currMetric.k))*8
+          const metricValue = nodeMetric === 'p' ? Math.max((7*8 + Math.ceil(Math.log2(currMetric[nodeMetric]))*7)/3, 1) : currMetric[nodeMetric];
+          return Math.ceil(Math.log2(metricValue))*8
         }),
         color: node.ids.map(id => {
           const currMetric = metrics.find(metr => metr.o === id)
           if(currMetric == null) {
             return 'blue';
           }
-          return currMetric.k
+          const metricValue = nodeMetric === 'p' ? Math.max((9*8 + Math.ceil(Math.log2(currMetric[nodeMetric]))*9)/3, 0) : currMetric[nodeMetric];
+          return metricValue
         }),
         colorscale: scl,
         cmin: 0,
