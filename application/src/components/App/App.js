@@ -95,6 +95,7 @@ function App() {
   const [showPaths, setShowPaths] = React.useState(true);
   const [nodeMetric, setNodeMetric] = React.useState(nodeMetrics[0].value);
   const [numOfPaths, setNumOfPaths] = React.useState(50);
+  const [currentUsage, setCurrentUsage] = React.useState({ rent: 0, total: null, percentage: 0});
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -118,7 +119,7 @@ function App() {
   };
 
   return (
-    <Layout>
+    <Layout usage={currentUsage}>
       <Drawer
         variant="permanent"
         classes={{
@@ -211,7 +212,7 @@ function App() {
           </Container>
         )}
       </Drawer>
-      <Network showNodes={showNodes} showPaths={showPaths} nodeMetric={nodeMetric} maxNumOfPaths={numOfPaths} useTrend={useTrend}/>
+      <Network showNodes={showNodes} showPaths={showPaths} nodeMetric={nodeMetric} maxNumOfPaths={numOfPaths} useTrend={useTrend} onUsageChange={setCurrentUsage}/>
     </Layout>
   );
 }
