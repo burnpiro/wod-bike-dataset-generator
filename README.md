@@ -44,7 +44,7 @@ npm run deploy
 ![alt text](./assets/2019-03-with-degrees.png)
 
 
-### Json-coding-edges
+### Json coding - edges
 ```
 {"rental_place":"o","return_place":"d","number_of_trips":"c"}
 ```
