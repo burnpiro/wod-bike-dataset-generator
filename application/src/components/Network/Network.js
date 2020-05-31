@@ -6,7 +6,11 @@ import useFetchNodes from "../../hooks/useFetchNodes";
 import useTimer from "../../hooks/useTimer";
 import { makeStyles } from "@material-ui/core/styles";
 import useFetchData from "../../hooks/useFetchData";
-import {generateRandomFile, fillPathsWithData, fillNodesMetricData} from "../../helpers";
+import {
+  generateRandomFile,
+  fillPathsWithData,
+  fillNodesMetricData,
+} from "../../helpers";
 
 const useStyles = makeStyles((theme) => ({
   overlay: {
@@ -154,7 +158,7 @@ const layout = {
   ],
 };
 
-const Network = () => {
+const Network = ({ showNodes = true, showPaths = true, nodeMetric = 'k', maxNumOfPaths = 50 }) => {
   const classes = useStyles();
   const [frames, setFrames] = useState([]);
   const [frameId, setFrameId] = useState(0);
@@ -200,16 +204,27 @@ const Network = () => {
   };
 
   useEffect(() => {
-    if(monthData != null && monthData['1'] != null && monthMetricsData != null && monthMetricsData['1'] != null) {
+    if (
+      monthData != null &&
+      monthData["1"] != null &&
+      monthMetricsData != null &&
+      monthMetricsData["1"] != null
+    ) {
       setFrames(
         Array(1440 / 15)
           .fill(0)
           .map((val, id) => [
-            ...nodes.list.map(fillNodesMetricData(monthMetricsData[day][id*15] || [], id*15, day)),
-            ...(monthData[day][id*15] || []).map(fillPathsWithData(paths.obj, nodes.obj)).slice(0,80)
+            ...(showNodes ? nodes.list : []).map(
+              fillNodesMetricData(
+                monthMetricsData[day][id * 15] || [],
+                nodeMetric
+              )
+            ),
+            ...(showPaths ? monthData[day][id * 15] || [] : [])
+              .map(fillPathsWithData(paths.obj, nodes.obj))
+              .slice(0, maxNumOfPaths),
           ])
       );
-
     } else {
       setFrames(
         Array(1440 / 15)
@@ -217,22 +232,22 @@ const Network = () => {
           .map((val, id) => [...nodes.list])
       );
     }
-  }, [isLoading, isMonthLoading, isMonthMetricsLoading, day]);
+  }, [isLoading, isMonthLoading, isMonthMetricsLoading, day, showNodes, showPaths, nodeMetric, maxNumOfPaths]);
 
   useEffect(() => {
-    if(time === 1440 / 15 && (day < month.days)) {
+    if (time === 1440 / 15 && day < month.days) {
       layout.sliders[0].active = 1;
       setDay(day + 1);
       start(1);
     }
-  }, [time, day])
+  }, [time, day]);
 
   const data = frames[time] || [];
-  const buttonClick = ({menu: {name}, button: {args}}) => {
-    if(name === 'month') {
+  const buttonClick = ({ menu: { name }, button: { args } }) => {
+    if (name === "month") {
       setFrameId(0);
       reset(0);
-      setMonth({num: args[0], days: args[1]});
+      setMonth({ num: args[0], days: args[1] });
       setDay(1);
       doFetchMonth(`${args[0]}-paths.json`);
       doFetchMonthMetrics(`${args[0]}-metrics.json`);
@@ -276,7 +291,7 @@ const Network = () => {
         useResizeHandler={true}
         style={{ width: "100%", minHeight: "calc(100vh - 70px)" }}
       />
-      {(isLoading) && (
+      {isLoading && (
         <div className={classes.overlay}>
           <CircularProgress color="secondary" size={80} thickness={4} />
           <h1>Network data is loading... Please wait :)</h1>
