@@ -217,7 +217,10 @@ const Network = ({ showNodes = true, showPaths = true, nodeMetric = 'k', maxNumO
             ...(showNodes ? nodes.list : []).map(
               fillNodesMetricData(
                 monthMetricsData[day][id * 15] || [],
-                nodeMetric
+                nodeMetric === 'trend' ? 'k' : nodeMetric,
+                nodeMetric === 'trend',
+                monthMetricsData[day][id * 15 - 15] || [],
+                monthMetricsData[day][id * 15 - 30] || []
               )
             ),
             ...(showPaths ? monthData[day][id * 15] || [] : [])

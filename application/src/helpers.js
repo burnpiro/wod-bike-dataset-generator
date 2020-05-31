@@ -74,7 +74,7 @@ export const fillPathsWithData = (paths = {}, nodes = {}) => {
 
 const scl = [[0, 'rgb(0, 0, 200)'],[0.25,'rgb(0, 25, 255)'],[0.375,'rgb(0, 152, 255)'],[0.5,'rgb(44, 255, 150)'],[0.625,'rgb(151, 255, 0)'],[0.75,'rgb(255, 234, 0)'],[0.875,'rgb(255, 111, 0)'],[1,'rgb(255, 0, 0)']];
 
-export const fillNodesMetricData = (metrics = {}, nodeMetric = 'k') => {
+export const fillNodesMetricData = (metrics = {}, metricKey = 'k', usePrev = false, prevMetrics, prevMetricTwo) => {
   return (node = {}) => {
     return {
       type: "scattermapbox",
@@ -88,7 +88,7 @@ export const fillNodesMetricData = (metrics = {}, nodeMetric = 'k') => {
           if(currMetric == null) {
             return 4;
           }
-          const metricValue = nodeMetric === 'p' ? Math.max((7*8 + Math.ceil(Math.log2(currMetric[nodeMetric]))*7)/3, 1) : currMetric[nodeMetric];
+          const metricValue = metricKey === 'p' ? Math.max((7*8 + Math.ceil(Math.log2(currMetric[metricKey]))*7)/3, 1) : currMetric[metricKey];
           return Math.ceil(Math.log2(metricValue))*8
         }),
         color: node.ids.map(id => {
@@ -96,7 +96,21 @@ export const fillNodesMetricData = (metrics = {}, nodeMetric = 'k') => {
           if(currMetric == null) {
             return 'blue';
           }
-          const metricValue = nodeMetric === 'p' ? Math.max((9*8 + Math.ceil(Math.log2(currMetric[nodeMetric]))*9)/3, 0) : currMetric[nodeMetric];
+          const metricValue = metricKey === 'p' ? Math.max((9*8 + Math.ceil(Math.log2(currMetric[metricKey]))*9)/3, 0) : currMetric[metricKey];
+          if(usePrev) {
+            const prev = prevMetrics.find(metr => metr.o === id) || currMetric
+            const prev2 = prevMetricTwo.find(metr => metr.o === id) || currMetric
+            const avg = [currMetric, prev, prev2].reduce((acc, val, id, arr) => {
+              if(metricKey === 'p') {
+                acc += Math.max((9*8 + Math.ceil(Math.log2(val['p']))*9)/3, 0)/arr.length
+              } else {
+                acc += val[metricKey]/arr.length
+              }
+              return acc
+            }, 0)
+
+            return (avg - metricValue)*2 + 5
+          }
           return metricValue
         }),
         colorscale: scl,

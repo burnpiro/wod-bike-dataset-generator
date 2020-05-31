@@ -76,6 +76,10 @@ const nodeMetrics = [
     name: "PageRank",
     value: "p",
   },
+  {
+    name: "Degree trend",
+    value: "trend",
+  },
 ];
 
 const pathOptions = [
