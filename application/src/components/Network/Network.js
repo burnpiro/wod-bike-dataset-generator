@@ -130,12 +130,12 @@ const layout = {
   ],
   sliders: [
     {
-      pad: { t: 5, b: 10 },
+      pad: { t: 10, b: 10 },
       x: 0.15,
       y: 1.11,
       len: 0.85,
       currentvalue: {
-        visible: true,
+        visible: false,
         xanchor: "right",
         prefix: "Hour: ",
         font: {
@@ -177,6 +177,15 @@ const Network = ({ showNodes = true, showPaths = true, nodeMetric = 'k', maxNumO
     endTime: 1440 / 15,
     initialTime: frameId,
   });
+  layout.title = {
+    text: `Time: ${Math.floor(Number(time * 15 / 60))}:${time * 15 % 60 || '00'}`,
+    font: {
+      color: "#666",
+      size: 36,
+    },
+    x: 0.05,
+    y: 0.98,
+  }
   layout.sliders[0].active = time;
   layout.sliders[1] = {
     pad: { t: 5, b: 10 },
