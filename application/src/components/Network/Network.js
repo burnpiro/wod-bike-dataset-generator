@@ -158,7 +158,14 @@ const layout = {
   ],
 };
 
-const Network = ({ showNodes = true, showPaths = true, nodeMetric = 'k', maxNumOfPaths = 50, useTrend = false }) => {
+const Network = ({
+  showNodes = true,
+  showPaths = true,
+  nodeMetric = "k",
+  maxNumOfPaths = 50,
+  useTrend = false,
+  onUsageChange = () => {},
+}) => {
   const classes = useStyles();
   const [frames, setFrames] = useState([]);
   const [frameId, setFrameId] = useState(0);
@@ -173,19 +180,25 @@ const Network = ({ showNodes = true, showPaths = true, nodeMetric = 'k', maxNumO
     { data: monthMetricsData, isLoading: isMonthMetricsLoading },
     doFetchMonthMetrics,
   ] = useFetchData(`${month.num}-metrics.json`, {});
+  const [
+    { data: monthUsageData, isLoading: isMonthUsageLoading },
+    doFetchUsageMetrics,
+  ] = useFetchData(`${month.num}-usage.json`, {});
   const { time, start, pause, reset, isRunning } = useTimer({
     endTime: 1440 / 15,
     initialTime: frameId,
   });
   layout.title = {
-    text: `Time: ${Math.floor(Number(time * 15 / 60))}:${time * 15 % 60 || '00'}`,
+    text: `Time: ${Math.floor(Number((time * 15) / 60))}:${
+      (time * 15) % 60 || "00"
+    }`,
     font: {
       color: "#666",
       size: 36,
     },
     x: 0.05,
     y: 0.98,
-  }
+  };
   layout.sliders[0].active = time;
   layout.sliders[1] = {
     pad: { t: 5, b: 10 },
@@ -244,7 +257,17 @@ const Network = ({ showNodes = true, showPaths = true, nodeMetric = 'k', maxNumO
           .map((val, id) => [...nodes.list])
       );
     }
-  }, [isLoading, isMonthLoading, isMonthMetricsLoading, day, showNodes, showPaths, nodeMetric, maxNumOfPaths, useTrend]);
+  }, [
+    isLoading,
+    isMonthLoading,
+    isMonthMetricsLoading,
+    day,
+    showNodes,
+    showPaths,
+    nodeMetric,
+    maxNumOfPaths,
+    useTrend,
+  ]);
 
   useEffect(() => {
     if (time === 1440 / 15 && day < month.days) {
@@ -252,7 +275,16 @@ const Network = ({ showNodes = true, showPaths = true, nodeMetric = 'k', maxNumO
       setDay(day + 1);
       start(1);
     }
-  }, [time, day]);
+
+    if (monthUsageData != null && monthUsageData["1"] != null) {
+      const usageData = monthUsageData[day][time * 15];
+      onUsageChange({
+        rent: usageData ? usageData[0].bu : 0,
+        total: usageData ? usageData[0].bt : 0,
+        percentage: usageData ? Math.round(usageData[0].bp*100) : 0,
+      });
+    }
+  }, [time, day, isMonthUsageLoading]);
 
   const data = frames[time] || [];
   const buttonClick = ({ menu: { name }, button: { args } }) => {
@@ -263,6 +295,7 @@ const Network = ({ showNodes = true, showPaths = true, nodeMetric = 'k', maxNumO
       setDay(1);
       doFetchMonth(`${args[0]}-paths.json`);
       doFetchMonthMetrics(`${args[0]}-metrics.json`);
+      doFetchUsageMetrics(`${args[0]}-usage.json`);
     } else {
       switch (args[0]) {
         case "play":
