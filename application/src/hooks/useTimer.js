@@ -18,9 +18,12 @@ const useTimer = ({
     setTime(newTime ? newTime : initialTime);
   }, [initialTime]);
 
-  const start = useCallback(() => {
+  const start = useCallback((time) => {
     if (isTimeOver) {
       reset();
+    }
+    if (time) {
+      reset(time)
     }
 
     setIsRunning(true);

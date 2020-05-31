@@ -6,7 +6,7 @@ import useFetchNodes from "../../hooks/useFetchNodes";
 import useTimer from "../../hooks/useTimer";
 import { makeStyles } from "@material-ui/core/styles";
 import useFetchData from "../../hooks/useFetchData";
-import {generateRandomFile, fillPathsWithData} from "../../helpers";
+import {generateRandomFile, fillPathsWithData, fillNodesMetricData} from "../../helpers";
 
 const useStyles = makeStyles((theme) => ({
   overlay: {
@@ -120,7 +120,7 @@ const layout = {
       xanchor: "left",
       y: 1.15,
       yanchor: "top",
-      active: 0,
+      active: 1,
       font: { color: "#5072a8" },
     },
   ],
@@ -159,13 +159,16 @@ const Network = () => {
   const [frames, setFrames] = useState([]);
   const [frameId, setFrameId] = useState(0);
   const [day, setDay] = useState(1);
-  const [month, setMonth] = useState({ num: 7, days: 31 });
+  const [month, setMonth] = useState({ num: 4, days: 30 });
   const [{ nodes, paths }, isLoading, isError] = useFetchNodes();
   const [
     { data: monthData, isLoading: isMonthLoading },
     doFetchMonth,
-  ] = useFetchData("07.json", {});
-  const randomFile = generateRandomFile();
+  ] = useFetchData(`${month.num}-paths.json`, {});
+  const [
+    { data: monthMetricsData, isLoading: isMonthMetricsLoading },
+    doFetchMonthMetrics,
+  ] = useFetchData(`${month.num}-metrics.json`, {});
   const { time, start, pause, reset, isRunning } = useTimer({
     endTime: 1440 / 15,
     initialTime: frameId,
@@ -197,11 +200,14 @@ const Network = () => {
   };
 
   useEffect(() => {
-    if(monthData != null && monthData['1'] != null) {
+    if(monthData != null && monthData['1'] != null && monthMetricsData != null && monthMetricsData['1'] != null) {
       setFrames(
         Array(1440 / 15)
           .fill(0)
-          .map((val, id) => [...nodes.list, ...monthData[day][id*15].map(fillPathsWithData(paths.obj, nodes.obj)).slice(0,50)])
+          .map((val, id) => [
+            ...nodes.list.map(fillNodesMetricData(monthMetricsData[day][id*15] || [], id*15, day)),
+            ...(monthData[day][id*15] || []).map(fillPathsWithData(paths.obj, nodes.obj)).slice(0,80)
+          ])
       );
 
     } else {
@@ -211,14 +217,25 @@ const Network = () => {
           .map((val, id) => [...nodes.list])
       );
     }
-  }, [isLoading, isMonthLoading, day]);
+  }, [isLoading, isMonthLoading, isMonthMetricsLoading, day]);
+
+  useEffect(() => {
+    if(time === 1440 / 15 && (day < month.days)) {
+      layout.sliders[0].active = 1;
+      setDay(day + 1);
+      start(1);
+    }
+  }, [time, day])
+
   const data = frames[time] || [];
   const buttonClick = ({menu: {name}, button: {args}}) => {
     if(name === 'month') {
       setFrameId(0);
       reset(0);
-      setMonth({num: args[0], days: args[1]})
-      setDay(1)
+      setMonth({num: args[0], days: args[1]});
+      setDay(1);
+      doFetchMonth(`${args[0]}-paths.json`);
+      doFetchMonthMetrics(`${args[0]}-metrics.json`);
     } else {
       switch (args[0]) {
         case "play":

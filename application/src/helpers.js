@@ -65,9 +65,45 @@ export const fillPathsWithData = (paths = {}, nodes = {}) => {
       lat: path == null ? [] : path.lng,
       lon: path == null ? [] : path.lat,
       mode: "lines",
-      line: { width: pathData["c"]*2, color: "red" },
+      line: { width: pathData["c"]*2, color: "rgba(255,0,0,0.5)" },
       id: path == null ? [] : path.id,
       text: path == null ? 'unknown' : `"${nodes[pathData["o"]].name}" do "${nodes[pathData["d"]].name}" rowery: ${pathData["c"]}`,
+    };
+  };
+};
+
+const scl = [[0, 'rgb(0, 0, 200)'],[0.25,'rgb(0, 25, 255)'],[0.375,'rgb(0, 152, 255)'],[0.5,'rgb(44, 255, 150)'],[0.625,'rgb(151, 255, 0)'],[0.75,'rgb(255, 234, 0)'],[0.875,'rgb(255, 111, 0)'],[1,'rgb(255, 0, 0)']];
+
+export const fillNodesMetricData = (metrics = {}, time, day) => {
+  return (node = {}) => {
+    return {
+      type: "scattermapbox",
+      lat: node.lat,
+      lon: node.lon,
+      ids: node.ids,
+      mode: "markers",
+      marker: {
+        size: node.ids.map(id => {
+          const currMetric = metrics.find(metr => metr.o === id)
+          if(currMetric == null) {
+            return 4;
+          }
+          return Math.ceil(Math.log2(currMetric.k))*8
+        }),
+        color: node.ids.map(id => {
+          const currMetric = metrics.find(metr => metr.o === id)
+          if(currMetric == null) {
+            return 'blue';
+          }
+          return currMetric.k
+        }),
+        colorscale: scl,
+        cmin: 0,
+        cmax: 15,
+        opacity: 0.8,
+      },
+      hoverinfo: "text",
+      text: node.text,
     };
   };
 };
