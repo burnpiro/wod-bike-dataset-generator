@@ -15,6 +15,7 @@ import Select from "@material-ui/core/Select";
 import Divider from "@material-ui/core/Divider";
 import Layout from "../Layout/Layout";
 import Network from "../Network/Network";
+import {nodeMetrics} from "../../helpers";
 import "./App.css";
 
 const drawerWidth = 280;
@@ -58,25 +59,6 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(2),
   },
 }));
-
-const nodeMetrics = [
-  {
-    name: "Degree",
-    value: "k",
-  },
-  {
-    name: "In Degree",
-    value: "ik",
-  },
-  {
-    name: "Out Degree",
-    value: "ok",
-  },
-  {
-    name: "PageRank",
-    value: "p",
-  },
-];
 
 const pathOptions = [
   {
