@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/wod-bike-dataset-generator/static/css/main.5f361e03.chunk.css",
-    "main.js": "/wod-bike-dataset-generator/static/js/main.1ecefed9.chunk.js",
-    "main.js.map": "/wod-bike-dataset-generator/static/js/main.1ecefed9.chunk.js.map",
+    "main.js": "/wod-bike-dataset-generator/static/js/main.44123fd1.chunk.js",
+    "main.js.map": "/wod-bike-dataset-generator/static/js/main.44123fd1.chunk.js.map",
     "runtime-main.js": "/wod-bike-dataset-generator/static/js/runtime-main.ecbcacda.js",
     "runtime-main.js.map": "/wod-bike-dataset-generator/static/js/runtime-main.ecbcacda.js.map",
     "static/js/2.d6b70aef.chunk.js": "/wod-bike-dataset-generator/static/js/2.d6b70aef.chunk.js",
     "static/js/2.d6b70aef.chunk.js.map": "/wod-bike-dataset-generator/static/js/2.d6b70aef.chunk.js.map",
     "index.html": "/wod-bike-dataset-generator/index.html",
-    "precache-manifest.b65967bc2403816382612a1bcab6858d.js": "/wod-bike-dataset-generator/precache-manifest.b65967bc2403816382612a1bcab6858d.js",
+    "precache-manifest.cb219d94066b1c9629bacbe70ec142cb.js": "/wod-bike-dataset-generator/precache-manifest.cb219d94066b1c9629bacbe70ec142cb.js",
     "service-worker.js": "/wod-bike-dataset-generator/service-worker.js",
     "static/css/main.5f361e03.chunk.css.map": "/wod-bike-dataset-generator/static/css/main.5f361e03.chunk.css.map",
     "static/js/2.d6b70aef.chunk.js.LICENSE.txt": "/wod-bike-dataset-generator/static/js/2.d6b70aef.chunk.js.LICENSE.txt",
@@ -18,6 +18,6 @@
     "static/js/runtime-main.ecbcacda.js",
     "static/js/2.d6b70aef.chunk.js",
     "static/css/main.5f361e03.chunk.css",
-    "static/js/main.1ecefed9.chunk.js"
+    "static/js/main.44123fd1.chunk.js"
   ]
 }
