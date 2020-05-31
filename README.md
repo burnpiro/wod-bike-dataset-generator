@@ -190,11 +190,11 @@ interval_start, interval_end, number_of_trips, rental_place, return_place
 
 More details about this process in `15 Minutes Interval Parser Notebook` where we presrent generation of gropedby intervals for an example month
 
-To generate gropedby intervals for every month you need to preprocess every month (See [Preprocessing](##Preprocessing)). If you generate this files now you only need to execute [generate_groupby_intervals_datasets.py](generate_groupby_intervals_datasets.py) which will create new folder called groupedby_intervals in with intervals for each month. 
+To generate gropedby intervals for every month you need to preprocess every month (See [Preprocessing](#preprocessing)). If you generate this files now you only need to execute [generate_groupby_intervals_datasets.py](generate_groupby_intervals_datasets.py) which will create new folder called groupedby_intervals in with intervals for each month. 
 
 ## Convert Groupby Intervals to JSON format
 
-When u generenate groupedby_interval files for each month, you can convert them into jsons so they can be easily used in the webapp. In order to do that execute the  [convert_bikes_usage_to_json.py](convert_bikes_usage_to_json.py) file. Generated jasons will have a fomrat explained in [Json-coding-edges](###Json-coding-edges) section of a readme. 
+When u generenate groupedby_interval files for each month, you can convert them into jsons so they can be easily used in the webapp. In order to do that execute the  [convert_bikes_usage_to_json.py](convert_bikes_usage_to_json.py) file. Generated jasons will have a fomrat explained in [Json-coding-edges](#json-coding---edges) section of a readme. 
 
 
 More details about this process in `Convert 15 Minutes Interval To Json.ipynb` where we presrent generation of gropedby intervals jsons for an example month
