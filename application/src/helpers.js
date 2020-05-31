@@ -109,7 +109,7 @@ export const fillNodesMetricData = (metrics = {}, metricKey = 'k', usePrev = fal
               return acc
             }, 0)
 
-            return (avg - metricValue)*2 + 5
+            return (metricValue - avg)*2 + 5
           }
           return metricValue
         }),
