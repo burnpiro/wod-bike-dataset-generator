@@ -118,8 +118,19 @@ function App() {
   const handleDrawerClose = () => {
     setOpen(false);
   };
+  const handleShowNodes = (event) => {
+    setShowNodes(event.target.checked);
+  };
+  const handleShowPaths = (event) => {
+    setShowPaths(event.target.checked);
+  };
+  const handleNodeMetric = (event) => {
+    setNodeMetric(event.target.value);
+  };
+  const handleNumOfPaths = (event) => {
+    setNumOfPaths(event.target.value);
+  };
 
-  console.log(numOfPaths)
   return (
     <Layout>
       <Drawer
@@ -148,7 +159,7 @@ function App() {
                   control={
                     <Checkbox
                       checked={showNodes}
-                      onChange={setShowNodes}
+                      onChange={handleShowNodes}
                       name="nodes"
                     />
                   }
@@ -158,7 +169,7 @@ function App() {
                   control={
                     <Checkbox
                       checked={showPaths}
-                      onChange={setShowPaths}
+                      onChange={handleShowPaths}
                       name="paths"
                     />
                   }
@@ -172,7 +183,7 @@ function App() {
                 labelId="nodeMetric-label"
                 id="nodeMetric"
                 value={nodeMetric}
-                onChange={setNodeMetric}
+                onChange={handleNodeMetric}
               >
                 {nodeMetrics.map((metric) => (
                   <MenuItem key={metric.value} value={metric.value}>
@@ -187,7 +198,7 @@ function App() {
                 labelId="numOfNodes-label"
                 id="numOfNodes"
                 value={numOfPaths}
-                onChange={setNumOfPaths}
+                onChange={handleNumOfPaths}
               >
                 {pathOptions.map((numData) => (
                   <MenuItem key={numData.value} value={numData.value}>
