@@ -158,7 +158,7 @@ const layout = {
   ],
 };
 
-const Network = ({ showNodes = true, showPaths = true, nodeMetric = 'k', maxNumOfPaths = 50 }) => {
+const Network = ({ showNodes = true, showPaths = true, nodeMetric = 'k', maxNumOfPaths = 50, useTrend = false }) => {
   const classes = useStyles();
   const [frames, setFrames] = useState([]);
   const [frameId, setFrameId] = useState(0);
@@ -217,8 +217,8 @@ const Network = ({ showNodes = true, showPaths = true, nodeMetric = 'k', maxNumO
             ...(showNodes ? nodes.list : []).map(
               fillNodesMetricData(
                 monthMetricsData[day][id * 15] || [],
-                nodeMetric === 'trend' ? 'k' : nodeMetric,
-                nodeMetric === 'trend',
+                nodeMetric,
+                useTrend,
                 monthMetricsData[day][id * 15 - 15] || [],
                 monthMetricsData[day][id * 15 - 30] || []
               )
@@ -235,7 +235,7 @@ const Network = ({ showNodes = true, showPaths = true, nodeMetric = 'k', maxNumO
           .map((val, id) => [...nodes.list])
       );
     }
-  }, [isLoading, isMonthLoading, isMonthMetricsLoading, day, showNodes, showPaths, nodeMetric, maxNumOfPaths]);
+  }, [isLoading, isMonthLoading, isMonthMetricsLoading, day, showNodes, showPaths, nodeMetric, maxNumOfPaths, useTrend]);
 
   useEffect(() => {
     if (time === 1440 / 15 && day < month.days) {

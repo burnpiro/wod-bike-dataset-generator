@@ -76,10 +76,6 @@ const nodeMetrics = [
     name: "PageRank",
     value: "p",
   },
-  {
-    name: "Degree trend",
-    value: "trend",
-  },
 ];
 
 const pathOptions = [
@@ -112,6 +108,7 @@ const pathOptions = [
 function App() {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
+  const [useTrend, setUseTrend] = React.useState(false);
   const [showNodes, setShowNodes] = React.useState(true);
   const [showPaths, setShowPaths] = React.useState(true);
   const [nodeMetric, setNodeMetric] = React.useState(nodeMetrics[0].value);
@@ -121,6 +118,9 @@ function App() {
   };
   const handleDrawerClose = () => {
     setOpen(false);
+  };
+  const handleUseTrend = (event) => {
+    setUseTrend(event.target.checked);
   };
   const handleShowNodes = (event) => {
     setShowNodes(event.target.checked);
@@ -212,10 +212,24 @@ function App() {
               </Select>
               <FormHelperText>Be careful it might affect performance</FormHelperText>
             </FormControl>
+            <FormControl className={classes.formElement}>
+              <FormGroup>
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={useTrend}
+                      onChange={handleUseTrend}
+                      name="useTrend"
+                    />
+                  }
+                  label="Calculate Trend?"
+                />
+              </FormGroup>
+            </FormControl>
           </Container>
         )}
       </Drawer>
-      <Network showNodes={showNodes} showPaths={showPaths} nodeMetric={nodeMetric} maxNumOfPaths={numOfPaths}/>
+      <Network showNodes={showNodes} showPaths={showPaths} nodeMetric={nodeMetric} maxNumOfPaths={numOfPaths} useTrend={useTrend}/>
     </Layout>
   );
 }
