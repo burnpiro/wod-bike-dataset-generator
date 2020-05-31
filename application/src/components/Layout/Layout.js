@@ -55,9 +55,6 @@ export default function Layout({children}) {
       </main>
       {/* Footer */}
       <footer className={classes.footer}>
-        <Typography variant="h6" align="center" gutterBottom>
-          Footer
-        </Typography>
         <Copyright />
       </footer>
       {/* End footer */}
