@@ -10,6 +10,25 @@ export const preprocessPaths = (paths = {}) => {
   }));
 };
 
+export const nodeMetrics = [
+  {
+    name: "Degree",
+    value: "k",
+  },
+  {
+    name: "In Degree",
+    value: "ik",
+  },
+  {
+    name: "Out Degree",
+    value: "ok",
+  },
+  {
+    name: "PageRank",
+    value: "p",
+  },
+];
+
 export const preprocessNodes = (nodes = {}) => {
   const lat = nodes.map((row) => row["lat"]);
   const lng = nodes.map((row) => row["lng"]);
@@ -67,7 +86,8 @@ export const fillPathsWithData = (paths = {}, nodes = {}) => {
       mode: "lines",
       line: { width: pathData["c"]*2, color: "rgba(255,0,0,0.5)" },
       id: path == null ? [] : path.id,
-      text: path == null ? 'unknown' : `"${nodes[pathData["o"]].name}" do "${nodes[pathData["d"]].name}" rowery: ${pathData["c"]}`,
+      hoverinfo: "text",
+      hovertext: path == null ? 'unknown' : `<span style="font-size: 18px">"${nodes[pathData["o"]].name}" <b>&#8658;</b> "${nodes[pathData["d"]].name}"</span> <br>Bicycles on path: ${pathData["c"]}`,
     };
   };
 };
@@ -119,7 +139,16 @@ export const fillNodesMetricData = (metrics = {}, metricKey = 'k', usePrev = fal
         opacity: 0.8,
       },
       hoverinfo: "text",
-      text: node.text,
+      hoverlabel: {
+        bgcolor: 'rgb(255, 234, 0)'
+      },
+      hovertext: node.ids.map(id => {
+        const currMetric = metrics.find(metr => metr.o === id)
+        if(currMetric == null) {
+          return `<span style="font-size: 14px"><b>Name:</b> ${node.text[id]}</span> <br><b>Metrics:</b> UNAVAILABLE`;
+        }
+        return `<span style="font-size: 14px"><b>Name:</b> ${node.text[id]}</span> <br><b>Metrics:</b><br>${nodeMetrics.map(metric => `${metric.name}: ${currMetric[metric.value]}<br>`).join('')}`
+      }),
     };
   };
 };
