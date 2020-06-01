@@ -10,6 +10,25 @@ export const preprocessPaths = (paths = {}) => {
   }));
 };
 
+export const nodeMetrics = [
+  {
+    name: "Degree",
+    value: "k",
+  },
+  {
+    name: "In Degree",
+    value: "ik",
+  },
+  {
+    name: "Out Degree",
+    value: "ok",
+  },
+  {
+    name: "PageRank",
+    value: "p",
+  },
+];
+
 export const preprocessNodes = (nodes = {}) => {
   const lat = nodes.map((row) => row["lat"]);
   const lng = nodes.map((row) => row["lng"]);
@@ -65,9 +84,71 @@ export const fillPathsWithData = (paths = {}, nodes = {}) => {
       lat: path == null ? [] : path.lng,
       lon: path == null ? [] : path.lat,
       mode: "lines",
-      line: { width: pathData["c"]*2, color: "red" },
+      line: { width: pathData["c"]*2, color: "rgba(255,0,0,0.5)" },
       id: path == null ? [] : path.id,
-      text: path == null ? 'unknown' : `"${nodes[pathData["o"]].name}" do "${nodes[pathData["d"]].name}" rowery: ${pathData["c"]}`,
+      hoverinfo: "text",
+      hovertext: path == null ? 'unknown' : `<span style="font-size: 18px">"${nodes[pathData["o"]].name}" <b>&#8658;</b> "${nodes[pathData["d"]].name}"</span> <br>Bicycles on path: ${pathData["c"]}`,
+    };
+  };
+};
+
+const scl = [[0, 'rgb(0, 0, 200)'],[0.25,'rgb(0, 25, 255)'],[0.375,'rgb(0, 152, 255)'],[0.5,'rgb(44, 255, 150)'],[0.625,'rgb(151, 255, 0)'],[0.75,'rgb(255, 234, 0)'],[0.875,'rgb(255, 111, 0)'],[1,'rgb(255, 0, 0)']];
+
+export const fillNodesMetricData = (metrics = {}, metricKey = 'k', usePrev = false, prevMetrics, prevMetricTwo) => {
+  return (node = {}) => {
+    return {
+      type: "scattermapbox",
+      lat: node.lat,
+      lon: node.lon,
+      ids: node.ids,
+      mode: "markers",
+      marker: {
+        size: node.ids.map(id => {
+          const currMetric = metrics.find(metr => metr.o === id)
+          if(currMetric == null) {
+            return 4;
+          }
+          const metricValue = metricKey === 'p' ? Math.max((7*8 + Math.ceil(Math.log2(currMetric[metricKey]))*7)/3, 1) : currMetric[metricKey];
+          return Math.ceil(Math.log2(metricValue))*8
+        }),
+        color: node.ids.map(id => {
+          const currMetric = metrics.find(metr => metr.o === id)
+          if(currMetric == null) {
+            return 'blue';
+          }
+          const metricValue = metricKey === 'p' ? Math.max((9*8 + Math.ceil(Math.log2(currMetric[metricKey]))*9)/3, 0) : currMetric[metricKey];
+          if(usePrev) {
+            const prev = prevMetrics.find(metr => metr.o === id) || currMetric
+            const prev2 = prevMetricTwo.find(metr => metr.o === id) || currMetric
+            const avg = [currMetric, prev, prev2].reduce((acc, val, id, arr) => {
+              if(metricKey === 'p') {
+                acc += Math.max((9*8 + Math.ceil(Math.log2(val['p']))*9)/3, 0)/arr.length
+              } else {
+                acc += val[metricKey]/arr.length
+              }
+              return acc
+            }, 0)
+
+            return (metricValue - avg)*2 + 5
+          }
+          return metricValue
+        }),
+        colorscale: scl,
+        cmin: 0,
+        cmax: 15,
+        opacity: 0.8,
+      },
+      hoverinfo: "text",
+      hoverlabel: {
+        bgcolor: 'rgb(255, 234, 0)'
+      },
+      hovertext: node.ids.map(id => {
+        const currMetric = metrics.find(metr => metr.o === id)
+        if(currMetric == null) {
+          return `<span style="font-size: 14px"><b>Name:</b> ${node.text[id]}</span> <br><b>Metrics:</b> UNAVAILABLE`;
+        }
+        return `<span style="font-size: 14px"><b>Name:</b> ${node.text[id]}</span> <br><b>Metrics:</b><br>${nodeMetrics.map(metric => `${metric.name}: ${currMetric[metric.value]}<br>`).join('')}`
+      }),
     };
   };
 };

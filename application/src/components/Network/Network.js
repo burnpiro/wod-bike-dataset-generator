@@ -6,7 +6,11 @@ import useFetchNodes from "../../hooks/useFetchNodes";
 import useTimer from "../../hooks/useTimer";
 import { makeStyles } from "@material-ui/core/styles";
 import useFetchData from "../../hooks/useFetchData";
-import {generateRandomFile, fillPathsWithData} from "../../helpers";
+import {
+  generateRandomFile,
+  fillPathsWithData,
+  fillNodesMetricData,
+} from "../../helpers";
 
 const useStyles = makeStyles((theme) => ({
   overlay: {
@@ -120,18 +124,18 @@ const layout = {
       xanchor: "left",
       y: 1.15,
       yanchor: "top",
-      active: 0,
+      active: 1,
       font: { color: "#5072a8" },
     },
   ],
   sliders: [
     {
-      pad: { t: 5, b: 10 },
+      pad: { t: 10, b: 10 },
       x: 0.15,
       y: 1.11,
       len: 0.85,
       currentvalue: {
-        visible: true,
+        visible: false,
         xanchor: "right",
         prefix: "Hour: ",
         font: {
@@ -154,22 +158,47 @@ const layout = {
   ],
 };
 
-const Network = () => {
+const Network = ({
+  showNodes = true,
+  showPaths = true,
+  nodeMetric = "k",
+  maxNumOfPaths = 50,
+  useTrend = false,
+  onUsageChange = () => {},
+}) => {
   const classes = useStyles();
   const [frames, setFrames] = useState([]);
   const [frameId, setFrameId] = useState(0);
   const [day, setDay] = useState(1);
-  const [month, setMonth] = useState({ num: 7, days: 31 });
+  const [month, setMonth] = useState({ num: 4, days: 30 });
   const [{ nodes, paths }, isLoading, isError] = useFetchNodes();
   const [
     { data: monthData, isLoading: isMonthLoading },
     doFetchMonth,
-  ] = useFetchData("07.json", {});
-  const randomFile = generateRandomFile();
+  ] = useFetchData(`${month.num}-paths.json`, {});
+  const [
+    { data: monthMetricsData, isLoading: isMonthMetricsLoading },
+    doFetchMonthMetrics,
+  ] = useFetchData(`${month.num}-metrics.json`, {});
+  const [
+    { data: monthUsageData, isLoading: isMonthUsageLoading },
+    doFetchUsageMetrics,
+  ] = useFetchData(`${month.num}-usage.json`, {});
   const { time, start, pause, reset, isRunning } = useTimer({
     endTime: 1440 / 15,
     initialTime: frameId,
   });
+  layout.title = {
+    text: `Time: ${Math.floor(Number((time * 15) / 60))}:${
+      (time * 15) % 60 || "00"
+    }`,
+    font: {
+      color: "#666",
+      size: 36,
+    },
+    x: 0.05,
+    y: 0.98,
+  };
   layout.sliders[0].active = time;
   layout.sliders[1] = {
     pad: { t: 5, b: 10 },
@@ -197,13 +226,30 @@ const Network = () => {
   };
 
   useEffect(() => {
-    if(monthData != null && monthData['1'] != null) {
+    if (
+      monthData != null &&
+      monthData["1"] != null &&
+      monthMetricsData != null &&
+      monthMetricsData["1"] != null
+    ) {
       setFrames(
         Array(1440 / 15)
           .fill(0)
-          .map((val, id) => [...nodes.list, ...monthData[day][id*15].map(fillPathsWithData(paths.obj, nodes.obj)).slice(0,50)])
+          .map((val, id) => [
+            ...(showNodes ? nodes.list : []).map(
+              fillNodesMetricData(
+                monthMetricsData[day][id * 15] || [],
+                nodeMetric,
+                useTrend,
+                monthMetricsData[day][id * 15 - 15] || [],
+                monthMetricsData[day][id * 15 - 30] || []
+              )
+            ),
+            ...(showPaths ? monthData[day][id * 15] || [] : [])
+              .map(fillPathsWithData(paths.obj, nodes.obj))
+              .slice(0, maxNumOfPaths),
+          ])
       );
-
     } else {
       setFrames(
         Array(1440 / 15)
@@ -211,14 +257,45 @@ const Network = () => {
           .map((val, id) => [...nodes.list])
       );
     }
-  }, [isLoading, isMonthLoading, day]);
+  }, [
+    isLoading,
+    isMonthLoading,
+    isMonthMetricsLoading,
+    day,
+    showNodes,
+    showPaths,
+    nodeMetric,
+    maxNumOfPaths,
+    useTrend,
+  ]);
+
+  useEffect(() => {
+    if (time === 1440 / 15 && day < month.days) {
+      layout.sliders[0].active = 1;
+      setDay(day + 1);
+      start(1);
+    }
+
+    if (monthUsageData != null && monthUsageData["1"] != null) {
+      const usageData = monthUsageData[day][time * 15];
+      onUsageChange({
+        rent: usageData ? usageData[0].bu : 0,
+        total: usageData ? usageData[0].bt : 0,
+        percentage: usageData ? Math.round(usageData[0].bp*100) : 0,
+      });
+    }
+  }, [time, day, isMonthUsageLoading]);
+
   const data = frames[time] || [];
-  const buttonClick = ({menu: {name}, button: {args}}) => {
-    if(name === 'month') {
+  const buttonClick = ({ menu: { name }, button: { args } }) => {
+    if (name === "month") {
       setFrameId(0);
       reset(0);
-      setMonth({num: args[0], days: args[1]})
-      setDay(1)
+      setMonth({ num: args[0], days: args[1] });
+      setDay(1);
+      doFetchMonth(`${args[0]}-paths.json`);
+      doFetchMonthMetrics(`${args[0]}-metrics.json`);
+      doFetchUsageMetrics(`${args[0]}-usage.json`);
     } else {
       switch (args[0]) {
         case "play":
@@ -259,7 +336,7 @@ const Network = () => {
         useResizeHandler={true}
         style={{ width: "100%", minHeight: "calc(100vh - 70px)" }}
       />
-      {(isLoading) && (
+      {isLoading && (
         <div className={classes.overlay}>
           <CircularProgress color="secondary" size={80} thickness={4} />
           <h1>Network data is loading... Please wait :)</h1>
