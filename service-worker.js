@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/wod-bike-dataset-generator/precache-manifest.065f66b57e5f48670a802ad5e3a84d75.js"
+  "/wod-bike-dataset-generator/precache-manifest.87f1b5b222713d3c098fe737720d4b03.js"
 );
 
 self.addEventListener('message', (event) => {
