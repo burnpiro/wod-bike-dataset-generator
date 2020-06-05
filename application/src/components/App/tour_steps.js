@@ -259,6 +259,16 @@ export const steps = [
     }
   },
   {
+    selector: "#path-prec",
+    content: ({ goTo, inDOM }) => (
+      <div key={"tes"}>
+        {`
+        You can select different path precision. This will affect performance of the whole network because more precise paths contain more points. We're limiting maximum precision to 13% (of total points) because that is already 85MB of data.
+        `}
+      </div>
+    ),
+  },
+  {
     selector: "#guide-icon",
     content: ({ goTo, inDOM }) => (
       <div key={"tes"}>
