@@ -3,7 +3,7 @@ import useFetchData from "./useFetchData";
 
 import {preprocessNodes} from "../helpers";
 
-const useFetchNodes = () => {
+const useFetchNodes = (pathsFile = "paths_reduced-e10.json") => {
   const [
     { data: nodesData, isLoading: isNodesLoading, isError: isNodesError },
     doFetchNodes,
@@ -11,7 +11,7 @@ const useFetchNodes = () => {
   const [
     { data: pathsData, isLoading: isPathsLoading, isError: isPathsError },
     doFetchPaths,
-  ] = useFetchData("paths_reduced-e10.json", {});
+  ] = useFetchData(pathsFile, {});
 
   return [
     {
@@ -25,6 +25,7 @@ const useFetchNodes = () => {
     },
     isNodesLoading || isPathsLoading,
     isNodesError || isPathsError,
+    doFetchPaths
   ];
 };
 
