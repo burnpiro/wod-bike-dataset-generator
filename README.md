@@ -1,6 +1,8 @@
-# wod-bike-dataset-generator
+# Temporal Network of bicycle usage in Wroclaw (PL)
 
 ![./assets/temp-network.png](./assets/temp-network.png)
+
+[Application website](https://burnpiro.github.io/wod-bike-dataset-generator/)
 
 ## Github Large File Storage
 
