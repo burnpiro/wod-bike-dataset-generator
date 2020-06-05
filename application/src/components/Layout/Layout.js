@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
     marginRight: theme.spacing(2),
   },
   main: {
-    minHeight: 'calc(100vh - 70px)',
+    minHeight: 'calc(100vh - 80px)',
   },
   logo: {
     maxHeight: 32,
@@ -57,14 +57,14 @@ export default function Layout({children, usage: {rent, percentage}}) {
             WRM Network
           </Typography>
           <div style={{display: 'flex', flex: 1}} />
-          <Typography variant="h5" color="inherit" noWrap>
+          <Typography variant="h5" color="inherit" noWrap id="bikes-in-rent">
             Total bikes in rent: {rent}
           </Typography>
           <Divider orientation="vertical" flexItem  className={classes.currentUsageLabel}/>
           <Typography variant="h5" color="inherit" noWrap>
             Current Usage
           </Typography>
-          <Box position="relative" display="inline-flex">
+          <Box position="relative" display="inline-flex" id="current-usage">
             <CircularProgress variant="static" value={percentage} color="secondary"
                               size={60}
                               thickness={8}/>

@@ -11,6 +11,7 @@ import {
   fillPathsWithData,
   fillNodesMetricData,
 } from "../../helpers";
+import Navigation from "../Navigation/Navigation";
 
 const useStyles = makeStyles((theme) => ({
   overlay: {
@@ -33,129 +34,13 @@ const layout = {
   mapbox: {
     style: "open-street-map",
     center: { lat: 51.11, lon: 17.03 },
-    margin: { r: 0, t: 0, b: 0, l: 0 },
     zoom: 11,
   },
+  margin: { r: 0, t: 0, b: 0, l: 0 },
+  autoexpand: true,
   autosize: true,
+  automargin: true,
   showlegend: false,
-  updatemenus: [
-    {
-      buttons: [
-        {
-          method: "update",
-          args: ["play"],
-          label: "Play",
-        },
-        {
-          method: "update",
-          args: ["pause"],
-          label: "Pause",
-        },
-      ],
-      name: "action",
-      direction: "left",
-      pad: { t: 10 },
-      showactive: true,
-      type: "buttons",
-      x: 0.0,
-      xanchor: "left",
-      y: 1.1,
-      yanchor: "top",
-    },
-    {
-      buttons: [
-        {
-          args: [3, 31],
-          label: "March",
-          method: "update",
-        },
-        {
-          args: [4, 30],
-          label: "April",
-          method: "update",
-        },
-        {
-          args: [5, 31],
-          label: "May",
-          method: "update",
-        },
-        {
-          args: [6, 30],
-          label: "June",
-          method: "update",
-        },
-        {
-          args: [7, 31],
-          label: "July",
-          method: "update",
-        },
-        {
-          args: [8, 31],
-          label: "August",
-          method: "update",
-        },
-        {
-          args: [9, 30],
-          label: "September",
-          method: "update",
-        },
-        {
-          args: [10, 31],
-          label: "October",
-          method: "update",
-        },
-        {
-          args: [11, 30],
-          label: "November",
-          method: "update",
-        },
-        {
-          args: [12, 31],
-          label: "December",
-          method: "update",
-        },
-      ],
-      name: "month",
-      direction: "down",
-      pad: { t: 10 },
-      showactive: true,
-      type: "dropdown",
-      x: 0.0,
-      xanchor: "left",
-      y: 1.15,
-      yanchor: "top",
-      active: 1,
-      font: { color: "#5072a8" },
-    },
-  ],
-  sliders: [
-    {
-      pad: { t: 10, b: 10 },
-      x: 0.15,
-      y: 1.11,
-      len: 0.85,
-      currentvalue: {
-        visible: false,
-        xanchor: "right",
-        prefix: "Hour: ",
-        font: {
-          color: "#888",
-          size: 20,
-        },
-      },
-      active: 0,
-      name: "Hour",
-      steps: Array(1440 / 15)
-        .fill(0)
-        .map((val, id) => ({
-          label: `${Math.floor((id * 15) / 60)}:${
-            (id * 15) % 60 === 0 ? "00" : (id * 15) % 60
-          }`,
-          args: [id],
-          method: "update",
-        })),
-    },
-  ],
 };
 
 const Network = ({
@@ -188,42 +73,6 @@ const Network = ({
     endTime: 1440 / 15,
     initialTime: frameId,
   });
-  layout.title = {
-    text: `Time: ${Math.floor(Number((time * 15) / 60))}:${
-      (time * 15) % 60 || "00"
-    }`,
-    font: {
-      color: "#666",
-      size: 36,
-    },
-    x: 0.05,
-    y: 0.98,
-  };
-  layout.sliders[0].active = time;
-  layout.sliders[1] = {
-    pad: { t: 5, b: 10 },
-    x: 0.15,
-    y: 1.22,
-    len: 0.85,
-    currentvalue: {
-      visible: true,
-      xanchor: "right",
-      prefix: "Day: ",
-      font: {
-        color: "#888",
-        size: 12,
-      },
-    },
-    active: day - 1,
-    name: "Day",
-    steps: Array(month.days)
-      .fill(0)
-      .map((val, id) => ({
-        label: id + 1,
-        args: [id + 1],
-        method: "update",
-      })),
-  };
 
   useEffect(() => {
     if (
@@ -271,7 +120,6 @@ const Network = ({
 
   useEffect(() => {
     if (time === 1440 / 15 && day < month.days) {
-      layout.sliders[0].active = 1;
       setDay(day + 1);
       start(1);
     }
@@ -281,60 +129,58 @@ const Network = ({
       onUsageChange({
         rent: usageData ? usageData[0].bu : 0,
         total: usageData ? usageData[0].bt : 0,
-        percentage: usageData ? Math.round(usageData[0].bp*100) : 0,
+        percentage: usageData ? Math.round(usageData[0].bp * 100) : 0,
       });
     }
   }, [time, day, isMonthUsageLoading]);
 
   const data = frames[time] || [];
-  const buttonClick = ({ menu: { name }, button: { args } }) => {
-    if (name === "month") {
-      setFrameId(0);
-      reset(0);
-      setMonth({ num: args[0], days: args[1] });
-      setDay(1);
-      doFetchMonth(`${args[0]}-paths.json`);
-      doFetchMonthMetrics(`${args[0]}-metrics.json`);
-      doFetchUsageMetrics(`${args[0]}-usage.json`);
-    } else {
-      switch (args[0]) {
-        case "play":
-          start();
-          break;
-        case "pause":
-          pause();
-          break;
-        default:
-          console.log(args[0]);
-          break;
-      }
+  const handleAnimationChange = (action) => {
+    switch (action) {
+      case "play":
+        start();
+        break;
+      case "pause":
+        pause();
+        break;
+      default:
+        console.log(action);
+        break;
     }
   };
-  const sliderChange = ({ slider: { name }, step: { args } }) => {
-    if (name === "Hour") {
-      setFrameId(args[0]);
-      reset(args[0]);
-    }
-    if (name === "Day") {
-      setDay(args[0]);
-      setFrameId(0);
-      reset(0);
-    }
+  const onMonthChange = (month) => {
+    setFrameId(0);
+    reset(0);
+    setMonth({ num: month.num, days: month.days });
+    setDay(1);
+    doFetchMonth(`${month.num}-paths.json`);
+    doFetchMonthMetrics(`${month.num}-metrics.json`);
+    doFetchUsageMetrics(`${month.num}-usage.json`);
+  };
+  const onHourChange = (hour) => {
+    setFrameId(hour);
+    reset(hour);
+  };
+  const onDayChange = (day) => {
+    setDay(day);
+    setFrameId(0);
+    reset(0);
   };
   return (
     <React.Fragment>
+      <Navigation
+        onDayChange={onDayChange}
+        onHourChange={onHourChange}
+        onMonthChange={onMonthChange}
+        onAnimationChange={handleAnimationChange}
+        day={day}
+        time={time}
+      />
       <Plot
         data={data}
         layout={layout}
-        frames={Array(frames.length)
-          .fill(0)
-          .map((i, id) => ({
-            name: id,
-          }))}
-        onButtonClicked={buttonClick}
-        onSliderChange={sliderChange}
         useResizeHandler={true}
-        style={{ width: "100%", minHeight: "calc(100vh - 70px)" }}
+        style={{ width: "100%", minHeight: "calc(100vh - 220px)" }}
       />
       {isLoading && (
         <div className={classes.overlay}>

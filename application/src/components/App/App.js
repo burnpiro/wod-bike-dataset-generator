@@ -13,10 +13,17 @@ import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
 import Divider from "@material-ui/core/Divider";
+import Modal from "@material-ui/core/Modal";
+import Fade from "@material-ui/core/Fade";
+import Box from "@material-ui/core/Box";
+import { useCookie } from "@use-hook/use-cookie";
+import Tour from "reactour";
 import Layout from "../Layout/Layout";
 import Network from "../Network/Network";
-import {nodeMetrics} from "../../helpers";
+import { nodeMetrics } from "../../helpers";
 import "./App.css";
+import { steps } from "./tour_steps";
+import Typography from "@material-ui/core/Typography";
 
 const drawerWidth = 280;
 
@@ -52,11 +59,33 @@ const useStyles = makeStyles((theme) => ({
   },
   menuContainer: {
     paddingTop: theme.spacing(2),
-    display: 'flex',
-    flexDirection: 'column'
+    display: "flex",
+    flexDirection: "column",
   },
   formElement: {
     marginTop: theme.spacing(2),
+    flex: 1,
+  },
+  modal: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    maxWidth: "500px",
+    margin: "auto",
+  },
+  paper: {
+    backgroundColor: theme.palette.background.paper,
+    border: "2px solid #000",
+    boxShadow: theme.shadows[5],
+    padding: theme.spacing(2, 4, 3),
+  },
+  iconButton: {
+    padding: 10,
+  },
+  helpContainer: {
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "baseline",
   },
 }));
 
@@ -85,17 +114,25 @@ const pathOptions = [
     name: 300,
     value: 300,
   },
-]
+];
 
 function App() {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
+  const [modalId, setModalId] = React.useState(null);
   const [useTrend, setUseTrend] = React.useState(false);
   const [showNodes, setShowNodes] = React.useState(true);
   const [showPaths, setShowPaths] = React.useState(true);
+  const [cookie, setCookie] = useCookie("guide-showed", false);
+  const [isTourOpen, setIsTourOpen] = React.useState(!cookie);
   const [nodeMetric, setNodeMetric] = React.useState(nodeMetrics[0].value);
   const [numOfPaths, setNumOfPaths] = React.useState(50);
-  const [currentUsage, setCurrentUsage] = React.useState({ rent: 0, total: null, percentage: 0});
+  const [currentUsage, setCurrentUsage] = React.useState({
+    rent: 0,
+    total: null,
+    percentage: 0,
+  });
+  console.log(cookie);
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -118,6 +155,28 @@ function App() {
     setNumOfPaths(event.target.value);
   };
 
+  const handleStepChange = (curr) => {
+    if (steps[curr].menuOpen && !open) {
+      setOpen(true);
+    }
+    if (steps[curr].menuOpen === false && open) {
+      setOpen(false);
+    }
+  };
+
+  const handleClose = () => {
+    setModalId(null);
+  };
+
+  const handleShowModal = (modalId) => {
+    setModalId(modalId);
+  };
+
+  const setGuideCookie = () => {
+    console.log("setCookie");
+    setCookie(true);
+  };
+
   return (
     <Layout usage={currentUsage}>
       <Drawer
@@ -128,7 +187,7 @@ function App() {
         }}
         open={open}
       >
-        <div className={classes.toolbarIcon}>
+        <div className={classes.toolbarIcon} id="menu-toggle">
           {open && (
             <IconButton onClick={handleDrawerClose}>&#x276E;</IconButton>
           )}
@@ -138,8 +197,8 @@ function App() {
         </div>
         <Divider />
         {open && (
-          <Container className={classes.menuContainer}>
-            <FormControl component="fieldset">
+          <Container className={classes.menuContainer} id="left-menu">
+            <FormControl component="fieldset" id="display-options">
               <FormLabel component="legend">Display Option</FormLabel>
               <FormGroup>
                 <FormControlLabel
@@ -164,55 +223,133 @@ function App() {
                 />
               </FormGroup>
             </FormControl>
-            <FormControl className={classes.formElement}>
-              <InputLabel id="nodeMetric-label">Node Metric</InputLabel>
-              <Select
-                labelId="nodeMetric-label"
-                id="nodeMetric"
-                value={nodeMetric}
-                onChange={handleNodeMetric}
+            <div className={classes.helpContainer}>
+              <FormControl className={classes.formElement}>
+                <InputLabel id="nodeMetric-label">Node Metric</InputLabel>
+                <Select
+                  labelId="nodeMetric-label"
+                  id="nodeMetric"
+                  value={nodeMetric}
+                  onChange={handleNodeMetric}
+                >
+                  {nodeMetrics.map((metric) => (
+                    <MenuItem key={metric.value} value={metric.value}>
+                      {metric.name}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+              <IconButton
+                color="primary"
+                className={classes.iconButton}
+                aria-label="directions"
+                onClick={() => handleShowModal(13)}
               >
-                {nodeMetrics.map((metric) => (
-                  <MenuItem key={metric.value} value={metric.value}>
-                    {metric.name}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-            <FormControl className={classes.formElement}>
-              <InputLabel id="numOfNodes-label">Max num. of paths</InputLabel>
-              <Select
-                labelId="numOfNodes-label"
-                id="numOfNodes"
-                value={numOfPaths}
-                onChange={handleNumOfPaths}
+                ?
+              </IconButton>
+            </div>
+            <div className={classes.helpContainer}>
+              <FormControl className={classes.formElement}>
+                <InputLabel id="numOfNodes-label">Max num. of paths</InputLabel>
+                <Select
+                  labelId="numOfNodes-label"
+                  id="numOfNodes"
+                  value={numOfPaths}
+                  onChange={handleNumOfPaths}
+                >
+                  {pathOptions.map((numData) => (
+                    <MenuItem key={numData.value} value={numData.value}>
+                      {numData.name}
+                    </MenuItem>
+                  ))}
+                </Select>
+                <FormHelperText>
+                  Be careful it might affect performance
+                </FormHelperText>
+              </FormControl>
+              <IconButton
+                color="primary"
+                className={classes.iconButton}
+                aria-label="directions"
+                onClick={() => handleShowModal(14)}
               >
-                {pathOptions.map((numData) => (
-                  <MenuItem key={numData.value} value={numData.value}>
-                    {numData.name}
-                  </MenuItem>
-                ))}
-              </Select>
-              <FormHelperText>Be careful it might affect performance</FormHelperText>
-            </FormControl>
-            <FormControl className={classes.formElement}>
-              <FormGroup>
-                <FormControlLabel
-                  control={
-                    <Checkbox
-                      checked={useTrend}
-                      onChange={handleUseTrend}
-                      name="useTrend"
-                    />
-                  }
-                  label="Calculate Trend?"
-                />
-              </FormGroup>
-            </FormControl>
+                ?
+              </IconButton>
+            </div>
+            <div className={classes.helpContainer}>
+              <FormControl className={classes.formElement} id="useTrends">
+                <FormGroup>
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        checked={useTrend}
+                        onChange={handleUseTrend}
+                        name="useTrend"
+                      />
+                    }
+                    label="Calculate Trend?"
+                  />
+                </FormGroup>
+              </FormControl>
+              <IconButton
+                color="primary"
+                className={classes.iconButton}
+                aria-label="directions"
+                onClick={() => handleShowModal(15)}
+              >
+                ?
+              </IconButton>
+            </div>
           </Container>
         )}
+        <div style={{ flex: 1 }} />
+        <IconButton
+          color="secondary"
+          aria-label="Show guide"
+          id="guide-icon"
+          onClick={() => setIsTourOpen(true)}
+        >
+          ?
+        </IconButton>
       </Drawer>
-      <Network showNodes={showNodes} showPaths={showPaths} nodeMetric={nodeMetric} maxNumOfPaths={numOfPaths} useTrend={useTrend} onUsageChange={setCurrentUsage}/>
+      <Network
+        showNodes={showNodes}
+        showPaths={showPaths}
+        nodeMetric={nodeMetric}
+        maxNumOfPaths={numOfPaths}
+        useTrend={useTrend}
+        onUsageChange={setCurrentUsage}
+      />
+      {isTourOpen && (
+        <Tour
+          steps={steps}
+          isOpen={isTourOpen}
+          closeWithMask={false}
+          getCurrentStep={handleStepChange}
+          lastStepNextButton={<Typography variant="h5" noWrap color="secondary">Close</Typography>}
+          onRequestClose={() => {
+            setIsTourOpen(false);
+            setGuideCookie();
+          }}
+        />
+      )}
+      {modalId != null && (
+        <Modal
+          aria-labelledby="transition-modal-title"
+          aria-describedby="transition-modal-description"
+          className={classes.modal}
+          open={open}
+          onClose={handleClose}
+          closeAfterTransition
+          BackdropProps={{
+            timeout: 500,
+          }}
+        >
+          <Fade in={open}>
+            <div className={classes.paper}>{steps[modalId].content({})}</div>
+          </Fade>
+        </Modal>
+      )}
     </Layout>
   );
 }
