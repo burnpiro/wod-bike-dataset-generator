@@ -50,13 +50,16 @@ const Network = ({
   maxNumOfPaths = 50,
   useTrend = false,
   onUsageChange = () => {},
+  pathPrec,
 }) => {
   const classes = useStyles();
   const [frames, setFrames] = useState([]);
   const [frameId, setFrameId] = useState(0);
   const [day, setDay] = useState(1);
   const [month, setMonth] = useState({ num: 4, days: 30 });
-  const [{ nodes, paths }, isLoading, isError] = useFetchNodes();
+  const [{ nodes, paths }, isLoading, isError, doFetchPaths] = useFetchNodes(
+    pathPrec
+  );
   const [
     { data: monthData, isLoading: isMonthLoading },
     doFetchMonth,
@@ -73,6 +76,10 @@ const Network = ({
     endTime: 1440 / 15,
     initialTime: frameId,
   });
+
+  useEffect(() => {
+    doFetchPaths(pathPrec)
+  }, [pathPrec])
 
   useEffect(() => {
     if (

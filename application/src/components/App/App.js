@@ -116,6 +116,21 @@ const pathOptions = [
   },
 ];
 
+const pathPrecs = [
+  {
+    label: '3% (fastest)',
+    value: 'paths_reduced-e7.json'
+  },
+  {
+    label: '7% (optimal)',
+    value: 'paths_reduced-e10.json'
+  },
+  {
+    label: '13% (slowest)',
+    value: 'paths_reduced-e12.json'
+  },
+]
+
 function App() {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
@@ -123,6 +138,7 @@ function App() {
   const [useTrend, setUseTrend] = React.useState(false);
   const [showNodes, setShowNodes] = React.useState(true);
   const [showPaths, setShowPaths] = React.useState(true);
+  const [pathPrec, setPathPrec] = React.useState(pathPrecs[1].value);
   const [cookie, setCookie] = useCookie("guide-showed", false);
   const [isTourOpen, setIsTourOpen] = React.useState(!cookie);
   const [nodeMetric, setNodeMetric] = React.useState(nodeMetrics[0].value);
@@ -153,6 +169,9 @@ function App() {
   };
   const handleNumOfPaths = (event) => {
     setNumOfPaths(event.target.value);
+  };
+  const handlePathPrec = (event) => {
+    setPathPrec(event.target.value);
   };
 
   const handleStepChange = (curr) => {
@@ -300,6 +319,21 @@ function App() {
                 ?
               </IconButton>
             </div>
+
+            <FormControl className={classes.formElement} id="path-prec">
+              <InputLabel id="prec-label">Path precision</InputLabel>
+              <Select
+                labelId="prec-label"
+                value={pathPrec}
+                onChange={handlePathPrec}
+              >
+                {pathPrecs.map((metric) => (
+                  <MenuItem key={metric.value} value={metric.value}>
+                    {metric.label}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
           </Container>
         )}
         <div style={{ flex: 1 }} />
@@ -319,6 +353,7 @@ function App() {
         maxNumOfPaths={numOfPaths}
         useTrend={useTrend}
         onUsageChange={setCurrentUsage}
+        pathPrec={pathPrec}
       />
       {isTourOpen && (
         <Tour
