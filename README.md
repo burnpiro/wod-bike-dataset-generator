@@ -9,7 +9,7 @@
 
 ## Github Large File Storage
 
-For large file storeage we need to use [Github LFS](https://git-lfs.github.com/). Please follow the instruction and install it on your machine.
+For large file storeage we need to use [Github LFS](https://git-lfs.github.com/). Please follow the instruction and install it on your machine. 
 
 ## Preprocessing
 1. To preprocess the dataset, you need to execute the following notebook
