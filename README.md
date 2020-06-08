@@ -1,6 +1,6 @@
 # Temporal Network of bicycle usage in Wroclaw (PL)
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-2-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-3-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 ![./assets/temp-network.png](./assets/temp-network.png)
@@ -239,6 +239,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
   <tr>
     <td align="center"><a href="https://erdem.pl"><img src="https://avatars0.githubusercontent.com/u/3284639?v=4" width="100px;" alt=""/><br /><sub><b>Kemal Erdem</b></sub></a><br /><a href="#design-burnpiro" title="Design">🎨</a> <a href="https://github.com/burnpiro/wod-bike-dataset-generator/commits?author=burnpiro" title="Code">💻</a> <a href="https://github.com/burnpiro/wod-bike-dataset-generator/commits?author=burnpiro" title="Documentation">📖</a> <a href="https://github.com/burnpiro/wod-bike-dataset-generator/pulls?q=is%3Apr+reviewed-by%3Aburnpiro" title="Reviewed Pull Requests">👀</a></td>
     <td align="center"><a href="https://github.com/tugot17"><img src="https://avatars2.githubusercontent.com/u/27293258?v=4" width="100px;" alt=""/><br /><sub><b>Piotr Mazurek</b></sub></a><br /><a href="https://github.com/burnpiro/wod-bike-dataset-generator/commits?author=tugot17" title="Code">💻</a> <a href="https://github.com/burnpiro/wod-bike-dataset-generator/commits?author=tugot17" title="Documentation">📖</a> <a href="https://github.com/burnpiro/wod-bike-dataset-generator/pulls?q=is%3Apr+reviewed-by%3Atugot17" title="Reviewed Pull Requests">👀</a></td>
+    <td align="center"><a href="https://github.com/dkunc"><img src="https://avatars2.githubusercontent.com/u/44451168?v=4" width="100px;" alt=""/><br /><sub><b>dkunc</b></sub></a><br /><a href="https://github.com/burnpiro/wod-bike-dataset-generator/commits?author=dkunc" title="Code">💻</a> <a href="https://github.com/burnpiro/wod-bike-dataset-generator/commits?author=dkunc" title="Documentation">📖</a> <a href="https://github.com/burnpiro/wod-bike-dataset-generator/pulls?q=is%3Apr+reviewed-by%3Adkunc" title="Reviewed Pull Requests">👀</a></td>
   </tr>
 </table>
 
