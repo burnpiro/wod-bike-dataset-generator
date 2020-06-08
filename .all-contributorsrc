@@ -27,6 +27,17 @@
         "doc",
         "review"
       ]
+    },
+    {
+      "login": "dkunc",
+      "name": "dkunc",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/44451168?v=4",
+      "profile": "https://github.com/dkunc",
+      "contributions": [
+        "code",
+        "doc",
+        "review"
+      ]
     }
   ],
   "contributorsPerLine": 7,
