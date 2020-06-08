@@ -16,6 +16,17 @@
         "doc",
         "review"
       ]
+    },
+    {
+      "login": "tugot17",
+      "name": "Piotr Mazurek",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/27293258?v=4",
+      "profile": "https://github.com/tugot17",
+      "contributions": [
+        "code",
+        "doc",
+        "review"
+      ]
     }
   ],
   "contributorsPerLine": 7,
