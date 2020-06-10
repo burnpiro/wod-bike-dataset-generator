@@ -118,16 +118,19 @@ const pathOptions = [
 
 const pathPrecs = [
   {
-    label: '3% (fastest)',
+    label: '3% (fastest) 2MB',
     value: 'paths_reduced-e7.json'
   },
   {
-    label: '7% (optimal)',
-    value: 'paths_reduced-e10.json'
+    label: '13% (optimal) 10MB',
+    value: 'paths_reduced-e12.json'
   },
   {
-    label: '13% (slowest)',
-    value: 'paths_reduced-e12.json'
+    label: '28% (slowest) 27MB!',
+    value: [
+      'paths_reduced-e15_p1.json',
+      'paths_reduced-e15_p2.json'
+    ]
   },
 ]
 
@@ -148,7 +151,6 @@ function App() {
     total: null,
     percentage: 0,
   });
-  console.log(cookie);
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -192,7 +194,6 @@ function App() {
   };
 
   const setGuideCookie = () => {
-    console.log("setCookie");
     setCookie(true);
   };
 

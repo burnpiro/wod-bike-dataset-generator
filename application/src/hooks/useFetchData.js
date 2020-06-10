@@ -43,12 +43,22 @@ const useFetchData = (initialUrl, initialData) => {
       dispatch({ type: "FETCH_INIT" });
 
       try {
-        const result = await axios(url);
+        let result = {};
+        if(Array.isArray(url)) {
+          const results = await Promise.all(url.map(filePath => axios(filePath)));
+          result = results[0]
+          result.data = results.reduce((acc, el) => {
+            return {...acc, ...el.data}
+          }, {})
+        } else {
+          result = await axios(url);
+        }
 
         if (!didCancel) {
           dispatch({ type: "FETCH_SUCCESS", payload: result.data });
         }
       } catch (error) {
+        console.error(error)
         if (!didCancel) {
           dispatch({ type: "FETCH_FAILURE" });
         }
