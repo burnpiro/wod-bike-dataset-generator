@@ -147,7 +147,7 @@ export const fillNodesMetricData = (metrics = {}, metricKey = 'k', usePrev = fal
         if(currMetric == null) {
           return `<span style="font-size: 14px"><b>Name:</b> ${node.text[id]}</span> <br><b>Metrics:</b> UNAVAILABLE`;
         }
-        return `<span style="font-size: 14px"><b>Name:</b> ${node.text[id]}</span> <br><b>Metrics:</b><br>${nodeMetrics.map(metric => `${metric.name}: ${currMetric[metric.value]}<br>`).join('')}`
+        return `<span style="font-size: 14px"><b>Name:</b> ${node.text[id]}</span> <br><b>Metrics:</b><br>${nodeMetrics.map(metric => `${metric.name}: ${Number.isInteger(currMetric[metric.value]) ? currMetric[metric.value] : currMetric[metric.value].toFixed(5)} <br>`).join('')}`
       }),
     };
   };
