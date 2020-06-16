@@ -14,7 +14,8 @@ function Copyright() {
     <Typography variant="body2" color="textSecondary" align="center">
       {"Copyright © "}
       {new Date().getFullYear()}
-      {` <a aria-label="Authors" href="https://github.com/burnpiro/wod-bike-dataset-generator#contributors-">Authors</a>`}
+      {" "}
+      <a aria-label="Authors" href="https://github.com/burnpiro/wod-bike-dataset-generator#contributors-">Authors</a>
       {"."}
     </Typography>
   );
