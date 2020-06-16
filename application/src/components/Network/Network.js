@@ -159,7 +159,9 @@ const Network = ({
     setFrameId(0);
     reset(0);
     setMonth({ num: month.num, days: month.days });
-    setDay(1);
+    if(month.days < day) {
+      setDay(1);
+    }
     doFetchMonth(`${month.num}-paths.json`);
     doFetchMonthMetrics(`${month.num}-metrics.json`);
     doFetchUsageMetrics(`${month.num}-usage.json`);
@@ -170,8 +172,6 @@ const Network = ({
   };
   const onDayChange = (day) => {
     setDay(day);
-    setFrameId(0);
-    reset(0);
   };
   return (
     <React.Fragment>
