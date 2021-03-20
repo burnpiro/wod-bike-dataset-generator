@@ -15,7 +15,6 @@ import Select from "@material-ui/core/Select";
 import Divider from "@material-ui/core/Divider";
 import Modal from "@material-ui/core/Modal";
 import Fade from "@material-ui/core/Fade";
-import Box from "@material-ui/core/Box";
 import { useCookie } from "@use-hook/use-cookie";
 import Tour from "reactour";
 import Layout from "../Layout/Layout";

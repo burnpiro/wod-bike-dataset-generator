@@ -2,7 +2,7 @@
   "name": "application",
   "version": "0.1.0",
   "private": true,
-  "homepage": "http://burnpiro.github.io/wod-bike-dataset-generator",
+  "homepage": "http://burnpiro.github.io/wod-bike-temporal-network",
   "dependencies": {
     "@material-ui/core": "^4.9.14",
     "@testing-library/jest-dom": "^4.2.4",

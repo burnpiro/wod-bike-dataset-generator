@@ -1,3 +1,4 @@
+// eslint-disable-next-line
 import React from "react";
 import useFetchData from "./useFetchData";
 
@@ -6,7 +7,6 @@ import {preprocessNodes} from "../helpers";
 const useFetchNodes = (pathsFile = "paths_reduced-e10.json") => {
   const [
     { data: nodesData, isLoading: isNodesLoading, isError: isNodesError },
-    doFetchNodes,
   ] = useFetchData("nodes_list.json", {});
   const [
     { data: pathsData, isLoading: isPathsLoading, isError: isPathsError },

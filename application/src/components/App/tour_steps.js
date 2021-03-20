@@ -127,14 +127,14 @@ export const steps = [
         Each dot represents a different station of WRM. Size of that dot matters because it represents one of the metrics (we're going to get to those soon). `}<b>Default metric is a Degree</b> {`which is basically a number of rents coming in and going out of the station. You can check current metrics by hovering over the station.
         `}
         <br />
-        <img src={station} />
+        <img src={station} alt={'stations'}/>
         <br />
         <br />
         {`
         Each path represents a connection between two stations. Path's width is represented by the number of bikes in rent on that path. That means if currently there are 3 bikes going from station A to station B, that path will have a width of 3 (`}<b>weight</b>{`). You can check the path destination and the current number of bicycles by hovering over the path.
         `}
         <br />
-        <img src={path} />
+        <img src={path} alt={'stations'} />
       </div>
     ),
     style: {
@@ -197,7 +197,7 @@ export const steps = [
         <a href="https://en.wikipedia.org/wiki/PageRank">PageRank Wiki</a>
         <br />
         <br />
-        <img src={scale} style={{float: 'right'}}/>
+        <img src={scale} alt={'stations'} style={{float: 'right'}}/>
         {`
           Each metric has a scale, the scale has two indicators: "size" and "color". The more reddish color is, the higher the value of that node is. The same goes for size. The larger the node is, the higher the value.
         `}
@@ -232,14 +232,14 @@ export const steps = [
         {`
           When the current node is above the trend line. How "red" the node is indicates how high above the trend line you are .
         `}
-        <img src={trendUp} style={{maxHeight: 200}}/>
+        <img src={trendUp} alt={'stations'} style={{maxHeight: 200}}/>
         <br />
         <br />
         <b>Down trend:</b>
         {`
           When current nodes is below the trend line. How "blue" the node is how low below the trend line you are.
         `}
-        <img src={trendDown} style={{maxHeight: 200}} />
+        <img src={trendDown} alt={'stations'} style={{maxHeight: 200}} />
         <br />
         <br />
         <b>Side trend:</b>

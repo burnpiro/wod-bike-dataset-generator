@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from "react";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import Plot from "react-plotly.js";
-import spacetime from "spacetime";
 import useFetchNodes from "../../hooks/useFetchNodes";
 import useTimer from "../../hooks/useTimer";
 import { makeStyles } from "@material-ui/core/styles";
 import useFetchData from "../../hooks/useFetchData";
 import {
-  generateRandomFile,
   fillPathsWithData,
   fillNodesMetricData,
 } from "../../helpers";
@@ -57,6 +55,7 @@ const Network = ({
   const [frameId, setFrameId] = useState(0);
   const [day, setDay] = useState(1);
   const [month, setMonth] = useState({ num: 4, days: 30 });
+  // eslint-disable-next-line
   const [{ nodes, paths }, isLoading, isError, doFetchPaths] = useFetchNodes(
     pathPrec
   );
@@ -72,13 +71,14 @@ const Network = ({
     { data: monthUsageData, isLoading: isMonthUsageLoading },
     doFetchUsageMetrics,
   ] = useFetchData(`${month.num}-usage.json`, {});
-  const { time, start, pause, reset, isRunning } = useTimer({
+  const { time, start, pause, reset } = useTimer({
     endTime: 1440 / 15,
     initialTime: frameId,
   });
 
   useEffect(() => {
     doFetchPaths(pathPrec)
+    // eslint-disable-next-line
   }, [pathPrec])
 
   useEffect(() => {
@@ -113,6 +113,7 @@ const Network = ({
           .map((val, id) => [...nodes.list])
       );
     }
+    // eslint-disable-next-line
   }, [
     isLoading,
     isMonthLoading,
@@ -139,6 +140,7 @@ const Network = ({
         percentage: usageData ? Math.round(usageData[0].bp * 100) : 0,
       });
     }
+    // eslint-disable-next-line
   }, [time, day, isMonthUsageLoading]);
 
   const data = frames[time] || [];
